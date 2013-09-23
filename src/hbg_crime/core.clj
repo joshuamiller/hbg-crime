@@ -7,7 +7,11 @@
             [feedparser-clj.core :as feed]
             [net.cgrand.enlive-html :as html]
             [cheshire.core :as json]
-            [clojure-csv.core :as csv]))
+            [clojure-csv.core :as csv]
+            [geocoder.google :as geo]
+            [clj-time.core :as tc]
+            [clj-time.format :as tf]
+            [hbg-crime.db :as db]))
 
 (defn police-blog-feed
   []
@@ -32,28 +36,42 @@
       (.getText stripper pd))))
 
 (def entry-regex #"^(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2})?\s*(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}) (.{34})(.*)")
+(def formatter
+  (tf/formatter "MM/dd/YYYY HH:mm" (tc/time-zone-for-id "America/New_York")))
 
 (defn parse-line
   [line]
   (if-let [matches (first (re-seq entry-regex line))]
-    {:start-time (nth matches 1)
-     :end-time (nth matches 2)
+    {:starttime (if-let [time (nth matches 1)]
+                  (java.sql.Date. (.getTime (.toDate (tf/parse formatter time)))))
+     :endtime (java.sql.Date. (.getTime (.toDate (tf/parse formatter (nth matches 2)))))
      :address (str/trim (nth matches 3))
      :description (str/trim (nth matches 4))}))
+
+(defn geocode-report
+  [report]
+  (let [res (first (geo/geocode-address (:address report)))
+        loc (get-in res [:geometry :location])]
+    (merge report loc)))
 
 (defn results-of-file
   [src]
   (let [text (text-of-pdf src)
         lines (str/split text #"\n")
-        parsed-lines (map parse-line lines)]
+        parsed-lines (map parse-line lines)
+        geocoded-reports (map geocode-report parsed-lines)]
     (filter identity parsed-lines)))
 
 (defn all-current-reports
   []
-  (->> (current-crime-report-links)
+  (->> (take 1 (current-crime-report-links))
        (map results-of-file)
        (flatten)
        (distinct)))
+
+(defn insert-all-current-reports
+  []
+  (map db/insert-report (all-current-reports)))
 
 (defn reports-as-json
   [reports]
@@ -62,8 +80,8 @@
 (defn reports-as-csv
   [reports]
   (->> reports
-       (map #(vec [(or (:start-time %) "")
-                   (:end-time %)
+       (map #(vec [(or (:starttime %) "")
+                   (:endtime %)
                    (:address %)
                    (:description %)]))
        (cons ["Start (if applicable)" "End" "Address" "Description"])

@@ -10,4 +10,8 @@
                  [enlive/enlive "1.1.1"]
                  [cheshire "5.0.2"]
                  [clojure-csv/clojure-csv "2.0.0-alpha1"]
-])
+                 [geocoder-clj "0.2.1"]
+                 [org.clojure/java.jdbc "0.3.0-alpha5"]
+                 [postgresql "9.1-901.jdbc4"]
+                 [clj-time "0.4.4"]
+                 [environ "0.4.0"]])
