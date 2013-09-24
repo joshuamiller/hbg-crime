@@ -43,8 +43,8 @@
   [line]
   (if-let [matches (first (re-seq entry-regex line))]
     {:starttime (if-let [time (nth matches 1)]
-                  (java.sql.Date. (.getTime (.toDate (tf/parse formatter time)))))
-     :endtime (java.sql.Date. (.getTime (.toDate (tf/parse formatter (nth matches 2)))))
+                  (tf/parse formatter time))
+     :endtime (tf/parse formatter (nth matches 2))
      :address (str/trim (nth matches 3))
      :description (str/trim (nth matches 4))}))
 
@@ -58,9 +58,9 @@
   [src]
   (let [text (text-of-pdf src)
         lines (str/split text #"\n")
-        parsed-lines (map parse-line lines)
+        parsed-lines (filter identity (map parse-line lines))
         geocoded-reports (map geocode-report parsed-lines)]
-    (filter identity parsed-lines)))
+    geocoded-reports))
 
 (defn all-current-reports
   []
@@ -71,7 +71,8 @@
 
 (defn insert-all-current-reports
   []
-  (map db/insert-report (all-current-reports)))
+  (doseq [report (filter identity (all-current-reports))]
+    (db/insert-report report)))
 
 (defn reports-as-json
   [reports]
