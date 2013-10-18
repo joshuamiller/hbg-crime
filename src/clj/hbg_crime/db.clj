@@ -29,7 +29,7 @@
                                          :endtime (:endtime report)
                                          :address (:address report)}))))))
 
-(defn sql-report
+(defn- sql-report
   [report]
   (assoc report :starttime (time/to-sql-date (:starttime report))
                 :endtime (time/to-sql-date (:endtime report))))
@@ -41,3 +41,7 @@
       (if (and (not (report-exists? record))
                (not (empty? record)))
         (j/insert-record :reports record)))))
+
+(defn all-reports
+  []
+  (j/query db (s/select * :reports (s/order-by {:endtime :desc}))))

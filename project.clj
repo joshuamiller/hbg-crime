@@ -14,4 +14,19 @@
                  [org.clojure/java.jdbc "0.3.0-alpha5"]
                  [postgresql "9.1-901.jdbc4"]
                  [clj-time "0.4.4"]
-                 [environ "0.4.0"]])
+                 [net.cgrand/moustache "1.1.0"]
+                 [ring "1.0.3"]
+                 [environ "0.4.0"]
+                 [prismatic/dommy "0.1.1"]
+                 [org.clojure/clojurescript "0.0-1934"]]
+  :source-paths ["src/clj"]
+  :cljsbuild {:builds
+              [{:source-paths ["src/cljs"]
+                :compiler
+                {:pretty-print true
+                 :output-to "resources/public/hbg-crime.js"
+                 :source-map "resources/public/hbg-crime.js.map"
+                 :optimizations :whitespace}}]}
+  :plugins [[lein-ring "0.8.2"]
+            [lein-cljsbuild "0.3.4"]]
+  :ring {:handler hbg-crime.web/routes})
