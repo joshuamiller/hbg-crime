@@ -13,7 +13,6 @@
 
   <script src="js/vendor/custom.modernizr.js"></script>
   <script src="js/vendor/jquery.js"></script>
-  <script src="js/vendor/underscore.js"></script>
   <script src="js/vendor/jquery.fileDownload.js"></script>
 </head>
 <body>
@@ -29,19 +28,7 @@
 		<h3>Make a Query</h3>
 
 		<div class="row">
-			<div class="small-6 columns">
-        <form id="asset-source">
-          <fieldset>
-            <legend>Search</legend>
-            <label for="starttime">From</label>
-            <input type="date" name="starttime"/>
-            <label for="endtime">From</label>
-            <input type="date" name="endtime"/>
-            <input type="submit" value="Submit" class="button" name="json"/>
-            <input type="submit" value="Download" class="button"
-                   name="csv" />
-          </fieldset>
-        </form>
+			<div class="small-6 columns" id="barchart">
       </div>
       
       <div class="small-6 columns">
