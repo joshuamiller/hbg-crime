@@ -27,7 +27,7 @@
                 {:pretty-print true
                  :output-to "resources/public/hbg-crime.js"
 ;                 :source-map "resources/public/hbg-crime.js.map"
-                 :optimizations :simple}}]}
+}}]}
   :plugins [[lein-ring "0.8.2"]
             [lein-cljsbuild "0.3.4"]]
   :ring {:handler hbg-crime.web/routes})
