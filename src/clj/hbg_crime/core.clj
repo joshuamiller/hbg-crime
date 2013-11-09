@@ -50,7 +50,8 @@
 
 (defn geocode-report
   [report]
-  (let [res (first (geo/geocode-address (:address report)))
+  (let [res (first (geo/geocode-address
+                    (str (:address report) ", Harrisburg, PA")))
         loc (get-in res [:geometry :location])]
     (merge report loc)))
 

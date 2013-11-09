@@ -2,7 +2,8 @@
   (:use environ.core)
   (:require [clojure.java.jdbc :as j]
             [clojure.java.jdbc.sql :as s]
-            [clj-time.coerce :as time]))
+            [clj-time.core :as time]
+            [clj-time.coerce :as coerce]))
 
 (def db (clojure.string/replace-first (env :database-url)
                                       "postgres:"
@@ -31,8 +32,8 @@
 
 (defn- sql-report
   [report]
-  (assoc report :starttime (time/to-sql-date (:starttime report))
-                :endtime (time/to-sql-date (:endtime report))))
+  (assoc report :starttime (coerce/to-timestamp (:starttime report))
+                :endtime (coerce/to-timestamp (:endtime report))))
 
 (defn insert-report
   [report]
@@ -42,6 +43,14 @@
                (not (empty? record)))
         (j/insert-record :reports record)))))
 
+(defn- format-local
+  [t]
+  (if t
+    (str (time/to-time-zone (coerce/from-date t) (time/time-zone-for-id "America/New_York")))))
+
 (defn all-reports
   []
-  (j/query db (s/select * :reports (s/order-by {:endtime :desc}))))
+  (let [reports (j/query db (s/select * :reports (s/order-by {:endtime :desc})))]
+    (map #(assoc %
+            :endtime (format-local (:endtime %))
+            :starttime (format-local (:starttime %))) reports)))

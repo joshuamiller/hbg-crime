@@ -11,7 +11,7 @@
                [dommy.macros :only [sel sel1 node]]))
 
 
-(def lon -76.897382)
+(def lon -76.864382)
 (def lat 40.2725855)
 
 (declare listen-on-chart)
@@ -20,47 +20,71 @@
 
 (def reports (atom []))
 
+(defn- date-for-timestamp
+  [t]
+  (first (str/split t #"T")))
+
 (defn bar-chart
   [data]
-  (let [width 500
-        bar-height 20
+  (let [width 300
+        bar-height 30
         s (scale/linear :domain [0 (apply max (vals data))]
                         :range [0 width])]
     (bind! "#barchart"
            [:div#bars
             (unify data (fn [[label val]]
-                          (let [date (first (str/split label #"T"))]
+                          (let [date (date-for-timestamp label)]
                             [:div {:style {:height (str bar-height "px")
                                            :width (str (s val) "px")
-                                           :background-color "gray"}}
+                                           :background-color "gray"
+                                           :padding "4px"
+                                           :border "2px solid white"}}
                              [:span {:style {:color "white"}}
                               [:a {:href (str "#" date)
                                    :class "date"
-                                   :data-date date}
+                                   :data-date date
+                                   :title (str val " reports")}
                                date]]])))])))
 
-(defn echo-reports
+(def time-formatter
+  )
+
+(defn info-window-content
+  [report]
+  (str "<h5>" (:description report) "</h5>"
+       "<p>" (:address report) "</p>"
+       "<p>" (:endtime report) "</p>"))
+
+(defn info-window-for-report
+  [report marker]
+  (google.maps.InfoWindow. (clj->js {"content" (info-window-content report)})))
+
+(defn report-marker
+  [r]
+  (let [lat (:lat r)
+        lng (:lng r)
+        pos (google.maps.LatLng. lat lng)
+        marker (google.maps.Marker. (clj->js {"position" pos "title" (:description r)}))
+        window (info-window-for-report r marker)]
+    (google.maps.event.addListener marker "click" (fn [] (.open window *map* marker)))
+    marker))
+
+(defn parse-reports
   [resp]
-  (let [results (js->clj (.getResponseJson (.-target resp)))]
-    (compare-and-set! reports @reports results)
-    (bar-chart (reverse (frequencies (map #(get % "endtime") results))))
+  (let [results (js->clj (.getResponseJson (.-target resp)) :keywordize-keys true)
+        with-markers (map #(assoc % :marker (report-marker %)) results)]
+    (compare-and-set! reports @reports with-markers)
+    (bar-chart (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results)))))
     (listen-on-chart)))
 
 (defn get-reports
   []
-  (xhr/send "reports.json" echo-reports "GET"))
-
-(defn place-report
-  [r]
-  (let [lat (get r "lat")
-        lng (get r "lng")
-        pos (google.maps.LatLng. lat lng)]
-    (google.maps.Marker. (clj->js {"position" pos "map" *map* "title" (get r "description")}))))
+  (xhr/send "reports.json" parse-reports "GET"))
 
 (defn create-map
   []
   (let [map-opts (clj->js {"center" (google.maps.LatLng. lat lon)
-                           "zoom" 11
+                           "zoom" 13
                            "mapTypeId" "roadmap"})]
     (set! *map* (google.maps.Map. (sel1 :#map) map-opts))))
 
@@ -70,5 +94,8 @@
     (let [date (attr/attr bar-link "data-date")]
       (dommy/listen! bar-link :click
                      (fn [e]
-                       (doseq [report (filter #(= (first (str/split (get % "endtime") "T")) date) @reports)]
-                         (place-report report)))))))
+                       (attr/toggle-class! (.-target e) "highlighted")
+                       (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date) @reports)]
+                         (if (.getMap (:marker report))
+                           (.setMap (:marker report) nil)
+                           (.setMap (:marker report) *map*))))))))
