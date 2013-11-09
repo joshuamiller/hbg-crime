@@ -1,0 +1,12 @@
+a.date {
+    color: #CCC;
+}
+a.date:visited {
+    color: #CCC;
+}
+a.date.highlighted {
+    color: yellow;
+}
+a.date.highlighted:visited {
+    color: yellow;
+}
