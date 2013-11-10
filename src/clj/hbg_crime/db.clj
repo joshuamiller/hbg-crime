@@ -5,10 +5,7 @@
             [clj-time.core :as time]
             [clj-time.coerce :as coerce]))
 
-(def db (clojure.string/replace-first (env :database-url)
-                                      "postgres:"
-                                      "jdbc:postgresql:"))
-(def conn (j/get-connection db))
+(def db (env :database-url))
 
 (defn create-reports-table
   []
