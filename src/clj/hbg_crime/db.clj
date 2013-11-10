@@ -54,3 +54,11 @@
     (map #(assoc %
             :endtime (format-local (:endtime %))
             :starttime (format-local (:starttime %))) reports)))
+
+(defn reports-for-date
+  [date]
+  (println date)
+  (let [reports (j/query db (s/select * :reports (str "where endtime::date = '"
+                                                      date
+                                                      "'")))]
+    reports))

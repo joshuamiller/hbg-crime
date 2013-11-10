@@ -34395,15 +34395,16 @@ hbg_crime.application.bar_chart = function bar_chart(data) {
   var s = c2.scale.linear.call(null, new cljs.core.Keyword(null, "domain", "domain", 3982673974), cljs.core.PersistentVector.fromArray([0, cljs.core.apply.call(null, cljs.core.max, cljs.core.vals.call(null, data))], true), new cljs.core.Keyword(null, "range", "range", 1122184367), cljs.core.PersistentVector.fromArray([0, width], true));
   var co__4079__auto__ = function() {
     var co__4024__auto__ = new reflex.core.ComputedObservable(null, true, function() {
-      return cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div#bars", "div#bars", 1313464036), c2.core.unify.call(null, data, function(p__10167) {
-        var vec__10168 = p__10167;
-        var label = cljs.core.nth.call(null, vec__10168, 0, null);
-        var val = cljs.core.nth.call(null, vec__10168, 1, null);
+      return cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div#bars", "div#bars", 1313464036), c2.core.unify.call(null, data, function(p__10719) {
+        var vec__10720 = p__10719;
+        var label = cljs.core.nth.call(null, vec__10720, 0, null);
+        var val = cljs.core.nth.call(null, vec__10720, 1, null);
         var date = hbg_crime.application.date_for_timestamp.call(null, label);
-        return cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div", "div", 1014003715), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "style", "style", 1123684643), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "height", "height", 4087841945), [cljs.core.str(bar_height), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, "width", "width", 1127031096), [cljs.core.str(s.call(null, val)), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, 
-        "background-color", "background-color", 1619226998), "gray", new cljs.core.Keyword(null, "padding", "padding", 4502531971), "4px", new cljs.core.Keyword(null, "border", "border", 3925567390), "2px solid white"], true)], true), cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "span", "span", 1017440956), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "style", "style", 1123684643), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "color", 
-        "color", 1108746965), "white"], true)], true), cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "a", "a", 1013904339), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "href", "href", 1017115293), [cljs.core.str("#"), cljs.core.str(date)].join(""), new cljs.core.Keyword(null, "class", "class", 1108647146), "date", new cljs.core.Keyword(null, "data-date", "data-date", 603869027), date, new cljs.core.Keyword(null, "title", "title", 1124275658), [cljs.core.str(val), 
-        cljs.core.str(" reports")].join("")], true), date], true)], true)], true)
+        return cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div", "div", 1014003715), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "style", "style", 1123684643), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "width", "width", 1127031096), [cljs.core.str(width), cljs.core.str("px")].join("")], true)], true), cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "a", "a", 1013904339), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, 
+        "href", "href", 1017115293), [cljs.core.str("/reports/"), cljs.core.str(date), cljs.core.str(".csv")].join(""), new cljs.core.Keyword(null, "class", "class", 1108647146), "download"], true), cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "i", "i", 1013904347), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "class", "class", 1108647146), "fa fa-cloud-download"], true)], true)], true), cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, 
+        "div", "div", 1014003715), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "style", "style", 1123684643), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "height", "height", 4087841945), [cljs.core.str(bar_height), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, "width", "width", 1127031096), [cljs.core.str(s.call(null, val)), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, "background-color", "background-color", 1619226998), "gray", 
+        new cljs.core.Keyword(null, "padding", "padding", 4502531971), "4px", new cljs.core.Keyword(null, "border", "border", 3925567390), "2px solid white"], true)], true), cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "span", "span", 1017440956), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "style", "style", 1123684643), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "color", "color", 1108746965), "white"], true)], true), cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, 
+        "a", "a", 1013904339), cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "href", "href", 1017115293), [cljs.core.str("#"), cljs.core.str(date)].join(""), new cljs.core.Keyword(null, "class", "class", 1108647146), "date", new cljs.core.Keyword(null, "data-date", "data-date", 603869027), date, new cljs.core.Keyword(null, "title", "title", 1124275658), [cljs.core.str(val), cljs.core.str(" reports")].join("")], true), date], true)], true)], true)], true)
       })], true)
     }, cljs.core.gensym.call(null, "computed-observable"), cljs.core.PersistentArrayMap.EMPTY, cljs.core.PersistentArrayMap.EMPTY);
     cljs.core.deref.call(null, co__4024__auto__);
@@ -34436,13 +34437,13 @@ hbg_crime.application.report_marker = function report_marker(r) {
 hbg_crime.application.parse_reports = function parse_reports(resp) {
   var results = cljs.core.js__GT_clj.call(null, resp.target.getResponseJson(), new cljs.core.Keyword(null, "keywordize-keys", "keywordize-keys", 4191781672), true);
   var with_markers = cljs.core.map.call(null, function(results) {
-    return function(p1__10169_SHARP_) {
-      return cljs.core.assoc.call(null, p1__10169_SHARP_, new cljs.core.Keyword(null, "marker", "marker", 4227565484), hbg_crime.application.report_marker.call(null, p1__10169_SHARP_))
+    return function(p1__10721_SHARP_) {
+      return cljs.core.assoc.call(null, p1__10721_SHARP_, new cljs.core.Keyword(null, "marker", "marker", 4227565484), hbg_crime.application.report_marker.call(null, p1__10721_SHARP_))
     }
   }(results), results);
   cljs.core.compare_and_set_BANG_.call(null, hbg_crime.application.reports, cljs.core.deref.call(null, hbg_crime.application.reports), with_markers);
-  hbg_crime.application.bar_chart.call(null, cljs.core.reverse.call(null, cljs.core.sort.call(null, cljs.core.frequencies.call(null, cljs.core.map.call(null, function(p1__10170_SHARP_) {
-    return hbg_crime.application.date_for_timestamp.call(null, (new cljs.core.Keyword(null, "endtime", "endtime", 3702581658)).call(null, p1__10170_SHARP_))
+  hbg_crime.application.bar_chart.call(null, cljs.core.reverse.call(null, cljs.core.sort.call(null, cljs.core.frequencies.call(null, cljs.core.map.call(null, function(p1__10722_SHARP_) {
+    return hbg_crime.application.date_for_timestamp.call(null, (new cljs.core.Keyword(null, "endtime", "endtime", 3702581658)).call(null, p1__10722_SHARP_))
   }, results)))));
   return hbg_crime.application.listen_on_chart.call(null)
 };
@@ -34454,72 +34455,72 @@ hbg_crime.application.create_map = function create_map() {
   return hbg_crime.application._STAR_map_STAR_ = new google.maps.Map(document.getElementById("map"), map_opts)
 };
 hbg_crime.application.listen_on_chart = function listen_on_chart() {
-  var seq__10184 = cljs.core.seq.call(null, dommy.utils.__GT_Array.call(null, document.querySelectorAll("a.date")));
-  var chunk__10185 = null;
-  var count__10186 = 0;
-  var i__10187 = 0;
+  var seq__10736 = cljs.core.seq.call(null, dommy.utils.__GT_Array.call(null, document.querySelectorAll("a.date")));
+  var chunk__10737 = null;
+  var count__10738 = 0;
+  var i__10739 = 0;
   while(true) {
-    if(i__10187 < count__10186) {
-      var bar_link = cljs.core._nth.call(null, chunk__10185, i__10187);
-      var date_10196 = dommy.attrs.attr.call(null, bar_link, "data-date");
-      dommy.core.listen_BANG_.call(null, bar_link, new cljs.core.Keyword(null, "click", "click", 1108654330), function(seq__10184, chunk__10185, count__10186, i__10187, date_10196, bar_link) {
+    if(i__10739 < count__10738) {
+      var bar_link = cljs.core._nth.call(null, chunk__10737, i__10739);
+      var date_10748 = dommy.attrs.attr.call(null, bar_link, "data-date");
+      dommy.core.listen_BANG_.call(null, bar_link, new cljs.core.Keyword(null, "click", "click", 1108654330), function(seq__10736, chunk__10737, count__10738, i__10739, date_10748, bar_link) {
         return function(e) {
           dommy.attrs.toggle_class_BANG_.call(null, e.target, "highlighted");
-          var seq__10188 = cljs.core.seq.call(null, cljs.core.filter.call(null, function(seq__10184, chunk__10185, count__10186, i__10187, date_10196, bar_link) {
-            return function(p1__10171_SHARP_) {
-              return cljs.core._EQ_.call(null, hbg_crime.application.date_for_timestamp.call(null, (new cljs.core.Keyword(null, "endtime", "endtime", 3702581658)).call(null, p1__10171_SHARP_)), date_10196)
+          var seq__10740 = cljs.core.seq.call(null, cljs.core.filter.call(null, function(seq__10736, chunk__10737, count__10738, i__10739, date_10748, bar_link) {
+            return function(p1__10723_SHARP_) {
+              return cljs.core._EQ_.call(null, hbg_crime.application.date_for_timestamp.call(null, (new cljs.core.Keyword(null, "endtime", "endtime", 3702581658)).call(null, p1__10723_SHARP_)), date_10748)
             }
-          }(seq__10184, chunk__10185, count__10186, i__10187, date_10196, bar_link), cljs.core.deref.call(null, hbg_crime.application.reports)));
-          var chunk__10189 = null;
-          var count__10190 = 0;
-          var i__10191 = 0;
+          }(seq__10736, chunk__10737, count__10738, i__10739, date_10748, bar_link), cljs.core.deref.call(null, hbg_crime.application.reports)));
+          var chunk__10741 = null;
+          var count__10742 = 0;
+          var i__10743 = 0;
           while(true) {
-            if(i__10191 < count__10190) {
-              var report = cljs.core._nth.call(null, chunk__10189, i__10191);
+            if(i__10743 < count__10742) {
+              var report = cljs.core._nth.call(null, chunk__10741, i__10743);
               if(cljs.core.truth_((new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).getMap())) {
                 (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(null)
               }else {
                 (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(hbg_crime.application._STAR_map_STAR_)
               }
-              var G__10197 = seq__10188;
-              var G__10198 = chunk__10189;
-              var G__10199 = count__10190;
-              var G__10200 = i__10191 + 1;
-              seq__10188 = G__10197;
-              chunk__10189 = G__10198;
-              count__10190 = G__10199;
-              i__10191 = G__10200;
+              var G__10749 = seq__10740;
+              var G__10750 = chunk__10741;
+              var G__10751 = count__10742;
+              var G__10752 = i__10743 + 1;
+              seq__10740 = G__10749;
+              chunk__10741 = G__10750;
+              count__10742 = G__10751;
+              i__10743 = G__10752;
               continue
             }else {
-              var temp__4092__auto__ = cljs.core.seq.call(null, seq__10188);
+              var temp__4092__auto__ = cljs.core.seq.call(null, seq__10740);
               if(temp__4092__auto__) {
-                var seq__10188__$1 = temp__4092__auto__;
-                if(cljs.core.chunked_seq_QMARK_.call(null, seq__10188__$1)) {
-                  var c__3615__auto__ = cljs.core.chunk_first.call(null, seq__10188__$1);
-                  var G__10201 = cljs.core.chunk_rest.call(null, seq__10188__$1);
-                  var G__10202 = c__3615__auto__;
-                  var G__10203 = cljs.core.count.call(null, c__3615__auto__);
-                  var G__10204 = 0;
-                  seq__10188 = G__10201;
-                  chunk__10189 = G__10202;
-                  count__10190 = G__10203;
-                  i__10191 = G__10204;
+                var seq__10740__$1 = temp__4092__auto__;
+                if(cljs.core.chunked_seq_QMARK_.call(null, seq__10740__$1)) {
+                  var c__3615__auto__ = cljs.core.chunk_first.call(null, seq__10740__$1);
+                  var G__10753 = cljs.core.chunk_rest.call(null, seq__10740__$1);
+                  var G__10754 = c__3615__auto__;
+                  var G__10755 = cljs.core.count.call(null, c__3615__auto__);
+                  var G__10756 = 0;
+                  seq__10740 = G__10753;
+                  chunk__10741 = G__10754;
+                  count__10742 = G__10755;
+                  i__10743 = G__10756;
                   continue
                 }else {
-                  var report = cljs.core.first.call(null, seq__10188__$1);
+                  var report = cljs.core.first.call(null, seq__10740__$1);
                   if(cljs.core.truth_((new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).getMap())) {
                     (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(null)
                   }else {
                     (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(hbg_crime.application._STAR_map_STAR_)
                   }
-                  var G__10205 = cljs.core.next.call(null, seq__10188__$1);
-                  var G__10206 = null;
-                  var G__10207 = 0;
-                  var G__10208 = 0;
-                  seq__10188 = G__10205;
-                  chunk__10189 = G__10206;
-                  count__10190 = G__10207;
-                  i__10191 = G__10208;
+                  var G__10757 = cljs.core.next.call(null, seq__10740__$1);
+                  var G__10758 = null;
+                  var G__10759 = 0;
+                  var G__10760 = 0;
+                  seq__10740 = G__10757;
+                  chunk__10741 = G__10758;
+                  count__10742 = G__10759;
+                  i__10743 = G__10760;
                   continue
                 }
               }else {
@@ -34529,92 +34530,92 @@ hbg_crime.application.listen_on_chart = function listen_on_chart() {
             break
           }
         }
-      }(seq__10184, chunk__10185, count__10186, i__10187, date_10196, bar_link));
-      var G__10209 = seq__10184;
-      var G__10210 = chunk__10185;
-      var G__10211 = count__10186;
-      var G__10212 = i__10187 + 1;
-      seq__10184 = G__10209;
-      chunk__10185 = G__10210;
-      count__10186 = G__10211;
-      i__10187 = G__10212;
+      }(seq__10736, chunk__10737, count__10738, i__10739, date_10748, bar_link));
+      var G__10761 = seq__10736;
+      var G__10762 = chunk__10737;
+      var G__10763 = count__10738;
+      var G__10764 = i__10739 + 1;
+      seq__10736 = G__10761;
+      chunk__10737 = G__10762;
+      count__10738 = G__10763;
+      i__10739 = G__10764;
       continue
     }else {
-      var temp__4092__auto__ = cljs.core.seq.call(null, seq__10184);
+      var temp__4092__auto__ = cljs.core.seq.call(null, seq__10736);
       if(temp__4092__auto__) {
-        var seq__10184__$1 = temp__4092__auto__;
-        if(cljs.core.chunked_seq_QMARK_.call(null, seq__10184__$1)) {
-          var c__3615__auto__ = cljs.core.chunk_first.call(null, seq__10184__$1);
-          var G__10213 = cljs.core.chunk_rest.call(null, seq__10184__$1);
-          var G__10214 = c__3615__auto__;
-          var G__10215 = cljs.core.count.call(null, c__3615__auto__);
-          var G__10216 = 0;
-          seq__10184 = G__10213;
-          chunk__10185 = G__10214;
-          count__10186 = G__10215;
-          i__10187 = G__10216;
+        var seq__10736__$1 = temp__4092__auto__;
+        if(cljs.core.chunked_seq_QMARK_.call(null, seq__10736__$1)) {
+          var c__3615__auto__ = cljs.core.chunk_first.call(null, seq__10736__$1);
+          var G__10765 = cljs.core.chunk_rest.call(null, seq__10736__$1);
+          var G__10766 = c__3615__auto__;
+          var G__10767 = cljs.core.count.call(null, c__3615__auto__);
+          var G__10768 = 0;
+          seq__10736 = G__10765;
+          chunk__10737 = G__10766;
+          count__10738 = G__10767;
+          i__10739 = G__10768;
           continue
         }else {
-          var bar_link = cljs.core.first.call(null, seq__10184__$1);
-          var date_10217 = dommy.attrs.attr.call(null, bar_link, "data-date");
-          dommy.core.listen_BANG_.call(null, bar_link, new cljs.core.Keyword(null, "click", "click", 1108654330), function(seq__10184, chunk__10185, count__10186, i__10187, date_10217, bar_link, seq__10184__$1, temp__4092__auto__) {
+          var bar_link = cljs.core.first.call(null, seq__10736__$1);
+          var date_10769 = dommy.attrs.attr.call(null, bar_link, "data-date");
+          dommy.core.listen_BANG_.call(null, bar_link, new cljs.core.Keyword(null, "click", "click", 1108654330), function(seq__10736, chunk__10737, count__10738, i__10739, date_10769, bar_link, seq__10736__$1, temp__4092__auto__) {
             return function(e) {
               dommy.attrs.toggle_class_BANG_.call(null, e.target, "highlighted");
-              var seq__10192 = cljs.core.seq.call(null, cljs.core.filter.call(null, function(seq__10184, chunk__10185, count__10186, i__10187, date_10217, bar_link, seq__10184__$1, temp__4092__auto__) {
-                return function(p1__10171_SHARP_) {
-                  return cljs.core._EQ_.call(null, hbg_crime.application.date_for_timestamp.call(null, (new cljs.core.Keyword(null, "endtime", "endtime", 3702581658)).call(null, p1__10171_SHARP_)), date_10217)
+              var seq__10744 = cljs.core.seq.call(null, cljs.core.filter.call(null, function(seq__10736, chunk__10737, count__10738, i__10739, date_10769, bar_link, seq__10736__$1, temp__4092__auto__) {
+                return function(p1__10723_SHARP_) {
+                  return cljs.core._EQ_.call(null, hbg_crime.application.date_for_timestamp.call(null, (new cljs.core.Keyword(null, "endtime", "endtime", 3702581658)).call(null, p1__10723_SHARP_)), date_10769)
                 }
-              }(seq__10184, chunk__10185, count__10186, i__10187, date_10217, bar_link, seq__10184__$1, temp__4092__auto__), cljs.core.deref.call(null, hbg_crime.application.reports)));
-              var chunk__10193 = null;
-              var count__10194 = 0;
-              var i__10195 = 0;
+              }(seq__10736, chunk__10737, count__10738, i__10739, date_10769, bar_link, seq__10736__$1, temp__4092__auto__), cljs.core.deref.call(null, hbg_crime.application.reports)));
+              var chunk__10745 = null;
+              var count__10746 = 0;
+              var i__10747 = 0;
               while(true) {
-                if(i__10195 < count__10194) {
-                  var report = cljs.core._nth.call(null, chunk__10193, i__10195);
+                if(i__10747 < count__10746) {
+                  var report = cljs.core._nth.call(null, chunk__10745, i__10747);
                   if(cljs.core.truth_((new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).getMap())) {
                     (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(null)
                   }else {
                     (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(hbg_crime.application._STAR_map_STAR_)
                   }
-                  var G__10218 = seq__10192;
-                  var G__10219 = chunk__10193;
-                  var G__10220 = count__10194;
-                  var G__10221 = i__10195 + 1;
-                  seq__10192 = G__10218;
-                  chunk__10193 = G__10219;
-                  count__10194 = G__10220;
-                  i__10195 = G__10221;
+                  var G__10770 = seq__10744;
+                  var G__10771 = chunk__10745;
+                  var G__10772 = count__10746;
+                  var G__10773 = i__10747 + 1;
+                  seq__10744 = G__10770;
+                  chunk__10745 = G__10771;
+                  count__10746 = G__10772;
+                  i__10747 = G__10773;
                   continue
                 }else {
-                  var temp__4092__auto____$1 = cljs.core.seq.call(null, seq__10192);
+                  var temp__4092__auto____$1 = cljs.core.seq.call(null, seq__10744);
                   if(temp__4092__auto____$1) {
-                    var seq__10192__$1 = temp__4092__auto____$1;
-                    if(cljs.core.chunked_seq_QMARK_.call(null, seq__10192__$1)) {
-                      var c__3615__auto__ = cljs.core.chunk_first.call(null, seq__10192__$1);
-                      var G__10222 = cljs.core.chunk_rest.call(null, seq__10192__$1);
-                      var G__10223 = c__3615__auto__;
-                      var G__10224 = cljs.core.count.call(null, c__3615__auto__);
-                      var G__10225 = 0;
-                      seq__10192 = G__10222;
-                      chunk__10193 = G__10223;
-                      count__10194 = G__10224;
-                      i__10195 = G__10225;
+                    var seq__10744__$1 = temp__4092__auto____$1;
+                    if(cljs.core.chunked_seq_QMARK_.call(null, seq__10744__$1)) {
+                      var c__3615__auto__ = cljs.core.chunk_first.call(null, seq__10744__$1);
+                      var G__10774 = cljs.core.chunk_rest.call(null, seq__10744__$1);
+                      var G__10775 = c__3615__auto__;
+                      var G__10776 = cljs.core.count.call(null, c__3615__auto__);
+                      var G__10777 = 0;
+                      seq__10744 = G__10774;
+                      chunk__10745 = G__10775;
+                      count__10746 = G__10776;
+                      i__10747 = G__10777;
                       continue
                     }else {
-                      var report = cljs.core.first.call(null, seq__10192__$1);
+                      var report = cljs.core.first.call(null, seq__10744__$1);
                       if(cljs.core.truth_((new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).getMap())) {
                         (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(null)
                       }else {
                         (new cljs.core.Keyword(null, "marker", "marker", 4227565484)).call(null, report).setMap(hbg_crime.application._STAR_map_STAR_)
                       }
-                      var G__10226 = cljs.core.next.call(null, seq__10192__$1);
-                      var G__10227 = null;
-                      var G__10228 = 0;
-                      var G__10229 = 0;
-                      seq__10192 = G__10226;
-                      chunk__10193 = G__10227;
-                      count__10194 = G__10228;
-                      i__10195 = G__10229;
+                      var G__10778 = cljs.core.next.call(null, seq__10744__$1);
+                      var G__10779 = null;
+                      var G__10780 = 0;
+                      var G__10781 = 0;
+                      seq__10744 = G__10778;
+                      chunk__10745 = G__10779;
+                      count__10746 = G__10780;
+                      i__10747 = G__10781;
                       continue
                     }
                   }else {
@@ -34624,15 +34625,15 @@ hbg_crime.application.listen_on_chart = function listen_on_chart() {
                 break
               }
             }
-          }(seq__10184, chunk__10185, count__10186, i__10187, date_10217, bar_link, seq__10184__$1, temp__4092__auto__));
-          var G__10230 = cljs.core.next.call(null, seq__10184__$1);
-          var G__10231 = null;
-          var G__10232 = 0;
-          var G__10233 = 0;
-          seq__10184 = G__10230;
-          chunk__10185 = G__10231;
-          count__10186 = G__10232;
-          i__10187 = G__10233;
+          }(seq__10736, chunk__10737, count__10738, i__10739, date_10769, bar_link, seq__10736__$1, temp__4092__auto__));
+          var G__10782 = cljs.core.next.call(null, seq__10736__$1);
+          var G__10783 = null;
+          var G__10784 = 0;
+          var G__10785 = 0;
+          seq__10736 = G__10782;
+          chunk__10737 = G__10783;
+          count__10738 = G__10784;
+          i__10739 = G__10785;
           continue
         }
       }else {

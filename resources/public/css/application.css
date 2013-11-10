@@ -1,3 +1,16 @@
+a.download {
+    color: #CCC;
+    float: right;
+    display: inline;
+    margin-top: 8px;
+    margin-right: 6px;
+}
+a.download:visited {
+    color: #CCC;
+}
+a.download:hover {
+    color: #EEE;
+}
 a.date {
     color: #CCC;
 }

@@ -19,7 +19,8 @@
                  [environ "0.4.0"]
                  [prismatic/dommy "0.1.1"]
                  [org.clojure/clojurescript "0.0-1934"]
-                 [com.keminglabs/c2 "0.2.3-SNAPSHOT"]]
+                 [com.keminglabs/c2 "0.2.3-SNAPSHOT"]
+                 [clojure-csv/clojure-csv "2.0.0-alpha1"]]
   :source-paths ["src/clj"]
   :cljsbuild {:builds
               [{:source-paths ["src/cljs"]

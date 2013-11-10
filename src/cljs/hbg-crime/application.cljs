@@ -34,17 +34,22 @@
            [:div#bars
             (unify data (fn [[label val]]
                           (let [date (date-for-timestamp label)]
-                            [:div {:style {:height (str bar-height "px")
-                                           :width (str (s val) "px")
-                                           :background-color "gray"
-                                           :padding "4px"
-                                           :border "2px solid white"}}
-                             [:span {:style {:color "white"}}
-                              [:a {:href (str "#" date)
-                                   :class "date"
-                                   :data-date date
-                                   :title (str val " reports")}
-                               date]]])))])))
+                            [:div {:style {:width (str width "px")}}
+                             [:a {:href (str "/reports/" date ".csv")
+                                    :class "download"}
+                                [:i {:class "fa fa-cloud-download"}]]
+                             [:div {:style {:height (str bar-height "px")
+                                            :width (str (s val) "px")
+                                            :background-color "gray"
+                                            :padding "4px"
+                                            :border "2px solid white"}}
+                              [:span {:style {:color "white"}}
+                               [:a {:href (str "#" date)
+                                    :class "date"
+                                    :data-date date
+                                    :title (str val " reports")}
+                                date]
+                               ]]])))])))
 
 (def time-formatter
   )
