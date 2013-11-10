@@ -1,8 +1,8 @@
-(defproject hbg-crime "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+(defproject hbg-crime "0.1.0"
+  :description "Process Harrisburg Crime Report Data"
+  :url "http://hbg-crime.org"
+  :license {:name "The MIT License"
+            :url "http://opensource.org/licenses/MIT"}
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.apache.pdfbox/pdfbox "1.8.2"]
