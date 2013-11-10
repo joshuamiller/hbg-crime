@@ -22,72 +22,80 @@
   </head>
   <body>
 
-	<div class="row">
-		<div class="large-12 columns">
-			<h2>Harrisburg Crime Reports</h2>
-			<hr />
-		</div>
-	</div>
+    <nav class="top-bar">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/index.html" class="name">Harrisburg Crime
+          Reports</a></h1>
+        </li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="right">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/developers.html">Developers</a></li>
+        </ul>
+      </section>
+    </nav>
 
-	<div class="row">
-		<div class="row">
-			<div class="small-4 columns">
-        <p>Click dates to toggle display on map.</p>
-        <div id="barchart">
+	  <div class="row">
+		  <div class="row">
+			  <div class="small-4 columns">
+          <p>Click dates to toggle display on map.</p>
+          <div id="barchart">
+          </div>
         </div>
-      </div>
-      
-      <div class="small-8 columns">
-        <div id="map" style="width: 600px; height: 600px;">
+        
+        <div class="small-8 columns">
+          <div id="map" style="width: 600px; height: 600px;">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="js/foundation.min.js"></script>
-  <!--
-  
-  <script src="js/foundation/foundation.js"></script>
-  
-  <script src="js/foundation/foundation.alerts.js"></script>
-  
-  <script src="js/foundation/foundation.clearing.js"></script>
-  
-  <script src="js/foundation/foundation.cookie.js"></script>
-  
-  <script src="js/foundation/foundation.dropdown.js"></script>
-  
-  <script src="js/foundation/foundation.forms.js"></script>
-  
-  <script src="js/foundation/foundation.joyride.js"></script>
-  
-  <script src="js/foundation/foundation.magellan.js"></script>
-  
-  <script src="js/foundation/foundation.orbit.js"></script>
-  
-  <script src="js/foundation/foundation.reveal.js"></script>
-  
-  <script src="js/foundation/foundation.section.js"></script>
-  
-  <script src="js/foundation/foundation.tooltips.js"></script>
-  
-  <script src="js/foundation/foundation.topbar.js"></script>
-  
-  <script src="js/foundation/foundation.interchange.js"></script>
-  
-  <script src="js/foundation/foundation.placeholder.js"></script>
-  
-  <script src="js/foundation/foundation.abide.js"></script>
-  
-  -->
-  
-  <script>
-    $(document).foundation();
-  </script>
-  <script type="text/javascript" src="hbg-crime.js"></script>
-  <script type="text/javascript">
-    hbg_crime.application.create_map();
-    hbg_crime.application.get_reports();
-  </script>
-</body>
+    <script src="js/foundation.min.js"></script>
+    <!--
+    
+    <script src="js/foundation/foundation.js"></script>
+    
+    <script src="js/foundation/foundation.alerts.js"></script>
+    
+    <script src="js/foundation/foundation.clearing.js"></script>
+    
+    <script src="js/foundation/foundation.cookie.js"></script>
+    
+    <script src="js/foundation/foundation.dropdown.js"></script>
+    
+    <script src="js/foundation/foundation.forms.js"></script>
+    
+    <script src="js/foundation/foundation.joyride.js"></script>
+    
+    <script src="js/foundation/foundation.magellan.js"></script>
+    
+    <script src="js/foundation/foundation.orbit.js"></script>
+    
+    <script src="js/foundation/foundation.reveal.js"></script>
+    
+    <script src="js/foundation/foundation.section.js"></script>
+    
+    <script src="js/foundation/foundation.tooltips.js"></script>
+    
+    <script src="js/foundation/foundation.topbar.js"></script>
+    
+    <script src="js/foundation/foundation.interchange.js"></script>
+    
+    <script src="js/foundation/foundation.placeholder.js"></script>
+    
+    <script src="js/foundation/foundation.abide.js"></script>
+    
+    -->
+    
+    <script>
+      $(document).foundation();
+    </script>
+    <script type="text/javascript" src="hbg-crime.js"></script>
+    <script type="text/javascript">
+      hbg_crime.application.create_map();
+      hbg_crime.application.get_reports();
+    </script>
+  </body>
 </html>

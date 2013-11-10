@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html>
+  <head>
+	  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Harrisburg Crime Reports - hbg-crime.org</title>
+
+    
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/application.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <script src="js/vendor/custom.modernizr.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/jquery.fileDownload.js"></script>
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7rsmmZzr6-IoDac5T6vfVj8vKQ7pwIeo&sensor=true">
+    </script>
+  </head>
+  <body>
+
+    <nav class="top-bar">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/index.html" class="name">Harrisburg Crime
+          Reports</a></h1>
+        </li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="right">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/developers.html">Developers</a></li>
+        </ul>
+      </section>
+    </nav>
+
+	  <div class="row">
+			<div class="small-12 columns">
+        <h1>Hbg-Crime.org API</h1>
+
+        <p>There are currently two API endpoints available, one for
+        all reports in JSON and one for reports by date in CSV.
+        Reports in JSON are
+        at <a href="http://hbg-crime.org/reports.json">/reports.json</a>
+        and reports by date are at /reports/YYYY-MM-DD.csv.
+        Finer-grained queries are coming soon.</p>
+      </div>
+    </div>
+
+    <script src="js/foundation.min.js"></script>
+  </body>
+</html>
