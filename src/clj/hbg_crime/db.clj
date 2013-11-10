@@ -54,8 +54,6 @@
 
 (defn reports-for-date
   [date]
-  (println date)
-  (let [reports (j/query db (s/select * :reports (str "where endtime::date = '"
-                                                      date
-                                                      "'")))]
-    reports))
+  (j/query db (s/select * :reports (str "where endtime::date = '"
+                                        date
+                                        "'"))))
