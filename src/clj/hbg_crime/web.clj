@@ -39,3 +39,7 @@
    ["reports.json"] {:get (fn [req] (reports-json req))}
    ["reports" date] {:get (fn [req] (reports-csv req date))}
    [""] {:get (fn [req] (redirect "index.html"))}))
+
+(defn -main
+  [port]
+  (jetty/run-jetty routes {:port (Integer. port)}))
