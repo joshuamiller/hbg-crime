@@ -31,4 +31,6 @@
 }}]}
   :plugins [[lein-ring "0.8.2"]
             [lein-cljsbuild "0.3.4"]]
-  :ring {:handler hbg-crime.web/routes})
+  :ring {:handler hbg-crime.web/routes}
+  :aliases {"update-reports"
+            ["run" "-m" "hbg-crime.core/insert-all-current-reports"]})
