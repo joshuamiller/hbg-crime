@@ -23,3 +23,18 @@ a.date.highlighted {
 a.date.highlighted:visited {
     color: yellow;
 }
+
+// Fix for Google Maps stuff via https://github.com/zurb/foundation/issues/2462
+#map *, #map *:before, #map *:after {
+    -moz-box-sizing: content-box!important;
+    -webkit-box-sizing: content-box!important;
+    box-sizing: content-box!important;  
+}
+#map img {
+    max-width: none;
+}
+#map label {
+    width: auto;
+    display: inline;
+}
+
