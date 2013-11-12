@@ -56,9 +56,9 @@
 
 (defn info-window-content
   [report]
-  (str "<h5>" (:description report) "</h5>"
-       "<p>" (:address report) "</p>"
-       "<p>" (:endtime report) "</p>"))
+  (str "<dl><dt>" (:description report) "</dt>"
+       "<dd>"     (:address report)
+       "<br/>"    (:endtime report) "</dd></dl>"))
 
 (defn info-window-for-report
   [report marker]
