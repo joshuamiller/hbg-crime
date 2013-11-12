@@ -73,8 +73,8 @@
        (distinct)))
 
 (defn insert-all-current-reports
-  []
-  (doseq [report (filter identity (all-current-reports))]
+  [& [n]]
+  (doseq [report (filter identity (all-current-reports n))]
     (db/insert-report report)))
 
 (defn reports-as-json
