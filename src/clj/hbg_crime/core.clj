@@ -19,8 +19,10 @@
 
 (defn pdf-link-for-url
   [url]
-  (let [source (-> url URL. html/html-resource)]
-    (-> (html/select source [:div.post_text :p :a]) first :attrs :href)))
+  (let [source (-> url URL. html/html-resource)
+        entries (html/select source [:div.post_text :p :a])
+        links (map #(get-in % [:attrs :href]) entries)]
+    (first (filter #(re-find #"Crime" %) links))))
 
 (defn current-crime-report-links
   []
@@ -64,8 +66,8 @@
     geocoded-reports))
 
 (defn all-current-reports
-  []
-  (->> (take 1 (current-crime-report-links))
+  [& [n]]
+  (->> (take (or n 1) (current-crime-report-links))
        (map results-of-file)
        (flatten)
        (distinct)))
