@@ -102,3 +102,4 @@
                          (if (.getMap (:marker report))
                            (.setMap (:marker report) nil)
                            (.setMap (:marker report) *map*))))))))
+
