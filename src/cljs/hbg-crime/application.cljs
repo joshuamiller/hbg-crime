@@ -4,8 +4,6 @@
             [dommy.attrs :as attr]
             [dommy.core :as dommy]
             [goog.net.XhrIo :as xhr]
-            [google.maps.LatLng]
-            [google.maps.Map]
             [clojure.string :as str])
   (:use-macros [c2.util :only [bind!]]
                [dommy.macros :only [sel sel1 node]]))
@@ -82,11 +80,11 @@
     (bar-chart (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results)))))
     (listen-on-chart)))
 
-(defn get-reports
+(defn ^:export get-reports
   []
   (xhr/send "reports.json" parse-reports "GET"))
 
-(defn create-map
+(defn ^:export create-map
   []
   (let [map-opts (clj->js {"center" (google.maps.LatLng. lat lon)
                            "zoom" 13
