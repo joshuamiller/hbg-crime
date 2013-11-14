@@ -77,6 +77,11 @@
   (doseq [report (filter identity (all-current-reports n))]
     (db/insert-report report)))
 
+(defn regeocode-reports
+  []
+  (doseq [report (db/ungeocoded-reports)]
+    (db/update-report! (geocode-report report))))
+
 (defn reports-as-json
   [reports]
   (json/encode reports))

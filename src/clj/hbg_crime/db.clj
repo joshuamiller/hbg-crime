@@ -45,12 +45,21 @@
   (if t
     (str (time/to-time-zone (coerce/from-date t) (time/time-zone-for-id "America/New_York")))))
 
+(defn ungeocoded-reports
+  []
+  (j/query db (s/select * :reports "where lat is null")))
+
 (defn all-reports
   []
   (let [reports (j/query db (s/select * :reports (s/order-by {:endtime :desc})))]
     (map #(assoc %
             :endtime (format-local (:endtime %))
             :starttime (format-local (:starttime %))) reports)))
+
+(defn update-report!
+  [report]
+  (let [id (:id report)]
+    (j/update! db :reports (dissoc report :id) (s/where {:id id}))))
 
 (defn reports-for-date
   [date]

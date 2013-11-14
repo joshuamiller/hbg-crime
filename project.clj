@@ -38,4 +38,6 @@
             [lein-cljsbuild "0.3.4"]]
   :ring {:handler hbg-crime.web/routes}
   :aliases {"update-reports"
-            ["run" "-m" "hbg-crime.core/insert-all-current-reports"]})
+            ["run" "-m" "hbg-crime.core/insert-all-current-reports"]
+            "regeocode-reports"
+            ["run" "-m" "hbg-crime.core/regeocode-reports"]})
