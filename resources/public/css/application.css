@@ -25,6 +25,7 @@ a.date.highlighted:visited {
 }
 div#map {
     border: 2px solid #CCC;
+    min-height: 600px;
 }
 
 // Fix for Google Maps stuff via https://github.com/zurb/foundation/issues/2462

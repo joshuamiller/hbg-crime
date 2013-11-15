@@ -24,7 +24,7 @@
 
 (defn bar-chart
   [data]
-  (let [width 300
+  (let [width (attr/px (sel1 :#barchart) :width)
         bar-height 30
         s (scale/linear :domain [0 (apply max (vals data))]
                         :range [0 width])]
@@ -48,9 +48,6 @@
                                     :title (str val " reports")}
                                 date]
                                ]]])))])))
-
-(def time-formatter
-  )
 
 (defn info-window-content
   [report]
@@ -102,4 +99,3 @@
                          (if (.getMap (:marker report))
                            (.setMap (:marker report) nil)
                            (.setMap (:marker report) *map*))))))))
-

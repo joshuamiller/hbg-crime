@@ -25,11 +25,9 @@
   :cljsbuild {:builds
               [{:source-paths ["src/cljs"]
                 :compiler
-                {:pretty-print true
-                 :output-to "resources/public/hbg-crime.js"
+                {:output-to "resources/public/hbg-crime.js"
                  :externs ["google_maps_api_v3.js"]
-                 :optimizations :advanced
-}}]}
+                 :optimizations :advanced}}]}
   :plugins [[lein-ring "0.8.2"]
             [lein-cljsbuild "0.3.4"]]
   :ring {:handler hbg-crime.web/routes}
