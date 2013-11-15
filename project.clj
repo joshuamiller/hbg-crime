@@ -28,11 +28,7 @@
                 {:pretty-print true
                  :output-to "resources/public/hbg-crime.js"
                  :externs ["google_maps_api_v3.js"]
-                 :foreign-libs [{:file "https://maps.googleapis.com/maps/api/js?key=AIzaSyA7rsmmZzr6-IoDac5T6vfVj8vKQ7pwIeo&sensor=true"
-                                 :provides ["google.maps.LatLng"
-                                            "google.maps.Map"]}]
                  :optimizations :advanced
-                                        ;                 :source-map "resources/public/hbg-crime.js.map"
 }}]}
   :plugins [[lein-ring "0.8.2"]
             [lein-cljsbuild "0.3.4"]]
