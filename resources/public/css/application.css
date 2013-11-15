@@ -23,6 +23,9 @@ a.date.highlighted {
 a.date.highlighted:visited {
     color: yellow;
 }
+div#map {
+    border: 2px solid #CCC;
+}
 
 // Fix for Google Maps stuff via https://github.com/zurb/foundation/issues/2462
 #map *, #map *:before, #map *:after {
