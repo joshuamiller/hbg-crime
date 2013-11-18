@@ -9,7 +9,7 @@
                [dommy.macros :only [sel sel1 node]]))
 
 
-(def lon -76.864382)
+(def lon -76.884382)
 (def lat 40.2725855)
 
 (declare listen-on-chart)
@@ -49,6 +49,15 @@
                                 date]
                                ]]])))])))
 
+(defn types-chart
+  [data]
+  (bind! "#types"
+         [:tbody#types
+          (unify data (fn [[label val]]
+                        [:tr
+                         [:td label]
+                         [:td val]]))]))
+
 (defn info-window-content
   [report]
   (str "<dl><dt>" (:description report) "</dt>"
@@ -75,6 +84,7 @@
         with-markers (map #(assoc % :marker (report-marker %)) results)]
     (compare-and-set! reports @reports with-markers)
     (bar-chart (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results)))))
+    (types-chart (sort #(> (last %1) (last %2)) (frequencies (map :description results))))
     (listen-on-chart)))
 
 (defn ^:export get-reports
