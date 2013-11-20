@@ -66,3 +66,10 @@
   (j/query db (s/select * :reports (str "where endtime::date = '"
                                         date
                                         "'"))))
+
+(defn reports-for-range
+  [start end]
+  (j/query db (s/select * :reports (str "where endtime::date >= '"
+                                        start
+                                        "' and endtime::date <= '"
+                                        end "'"))))

@@ -33,7 +33,7 @@
             (unify data (fn [[label val]]
                           (let [date (date-for-timestamp label)]
                             [:div {:style {:width (str width "px")}}
-                             [:a {:href (str "/reports/" date ".csv")
+                             [:a {:href (str "/" date "/" date "/reports.csv")
                                     :class "download"}
                                 [:i {:class "fa fa-cloud-download"}]]
                              [:div {:style {:height (str bar-height "px")

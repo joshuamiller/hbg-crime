@@ -8419,8 +8419,8 @@ function pk(a) {
         var d = O.u(a, 0, null);
         a = O.u(a, 1, null);
         d = ok(d);
-        return X([Gg, Va([Og, Va([Fg, [x(b), x("px")].join("")], !0)], !0), X([Kg, Va([Cg, [x("/reports/"), x(d), x(".csv")].join(""), Jg, "download"], !0), X([Sg, Va([Jg, "fa fa-cloud-download"], !0)], !0)], !0), X([Gg, Va([Og, Va([ah, [x(30), x("px")].join(""), Fg, [x(c.l ? c.l(a) : c.call(null, a)), x("px")].join(""), Ug, "gray", Hg, "4px", Dg, "2px solid white"], !0)], !0), X([Xg, Va([Og, Va([Mg, "white"], !0)], !0), X([Kg, Va([Cg, [x("#"), x(d)].join(""), Jg, "date", Zg, d, Rg, [x(a), x(" reports")].join("")], 
-        !0), d], !0)], !0)], !0)], !0)
+        return X([Gg, Va([Og, Va([Fg, [x(b), x("px")].join("")], !0)], !0), X([Kg, Va([Cg, [x("/"), x(d), x("/"), x(d), x("/reports.csv")].join(""), Jg, "download"], !0), X([Sg, Va([Jg, "fa fa-cloud-download"], !0)], !0)], !0), X([Gg, Va([Og, Va([ah, [x(30), x("px")].join(""), Fg, [x(c.l ? c.l(a) : c.call(null, a)), x("px")].join(""), Ug, "gray", Hg, "4px", Dg, "2px solid white"], !0)], !0), X([Xg, Va([Og, Va([Mg, "white"], !0)], !0), X([Kg, Va([Cg, [x("#"), x(d)].join(""), Jg, "date", Zg, d, Rg, 
+        [x(a), x(" reports")].join("")], !0), d], !0)], !0)], !0)], !0)
       })], !0)
     }, rg.l("computed-observable"), mf, mf);
     nc(d);

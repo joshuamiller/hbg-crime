@@ -16,8 +16,10 @@
   (redirect "index.html"))
 
 (defn reports-json
-  [req]
-  (response (encode (db/all-reports))))
+  ([req]
+     (response (encode (db/all-reports))))
+  ([req start end]
+     (response (encode (db/reports-for-range start end)))))
 
 (defn- reports-table
   [data]
@@ -25,10 +27,8 @@
              (map #(vec [(str (:starttime %)) (str (:endtime %)) (:description %) (:address %) (str (:lat %)) (str (:lng %))]) data))))
 
 (defn reports-csv
-  [req id]
-  (let [format (last (str/split id #"\."))
-        date (first (str/split id #"\."))]
-    (response (write-csv (reports-table (db/reports-for-date date))))))
+  [req start end]
+  (response (write-csv (reports-table (db/reports-for-range start end)))))
 
 (def routes
   (moustache/app
@@ -37,7 +37,8 @@
    (wrap-resource "public")
    ["reports"] {:get (fn [req] (reports-html req))}
    ["reports.json"] {:get (fn [req] (reports-json req))}
-   ["reports" date] {:get (fn [req] (reports-csv req date))}
+   [start end "reports.json"] {:get (fn [req] (reports-json req start end))}
+   [start end "reports.csv"] {:get (fn [req] (reports-csv req start end))}
    [""] {:get (fn [req] (redirect "index.html"))}))
 
 (defn -main
