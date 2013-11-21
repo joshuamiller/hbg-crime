@@ -7,14 +7,9 @@
     <meta name="viewport" content="width=device-width">
     <title>Harrisburg Crime Reports - hbg-crime.org</title>
 
-<<<<<<< HEAD
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/foundation.min.css">
-=======
-    
-    <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/foundation-datepicker.css">
->>>>>>> WIP: Changing date ranges.
     <link rel="stylesheet" href="css/application.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -45,11 +40,14 @@
     </nav>
 
 	  <div class="row">
-			<div class="small-6 large-3 columns">
-        <a id="end-date" class="button small" data-date="2013-11-20"
-           data-date-format="yyyy-mm-dd" href="#">Change</a>
+			<div class="small-6 large-3 columns" id="dates">
+        <h3>Reports by Date</h3>
+        <a id="end-date" class="date-change" data-date="2013-11-20"
+           data-date-format="yyyy-mm-dd" href="#">Change End Date</a>
         <div id="barchart">
         </div>
+        <a id="start-date" class="date-change" data-date="2013-11-20"
+           data-date-format="yyyy-mm-dd" href="#">Change Start Date</a>
       </div>
 
       <div class="small-6 large-5 columns" id="map">
