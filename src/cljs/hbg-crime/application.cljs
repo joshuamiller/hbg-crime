@@ -16,38 +16,43 @@
 
 (declare *map*)
 
-(def reports (atom []))
+(def reports (atom {:reports []
+                    :start-date ""
+                    :end-date ""}))
+(def reports-by-date (atom []))
+(def reports-by-type (atom []))
 
 (defn- date-for-timestamp
   [t]
   (first (str/split t #"T")))
 
 (defn bar-chart
-  [data]
+  []
   (let [width (attr/px (sel1 :#barchart) :width)
         bar-height 30
-        s (scale/linear :domain [0 (apply max (vals data))]
+        s (scale/linear :domain [0 (apply max (vals @reports-by-date))]
                         :range [0 width])]
     (bind! "#barchart"
            [:div#bars
-            (unify data (fn [[label val]]
-                          (let [date (date-for-timestamp label)]
-                            [:div {:style {:width (str width "px")}}
-                             [:a {:href (str "/" date "/" date "/reports.csv")
-                                    :class "download"}
-                                [:i {:class "fa fa-cloud-download"}]]
-                             [:div {:style {:height (str bar-height "px")
-                                            :width (str (s val) "px")
-                                            :background-color "gray"
-                                            :padding "4px"
-                                            :border "2px solid white"}}
-                              [:span {:style {:color "white"}}
-                               [:a {:href (str "#" date)
-                                    :class "date"
-                                    :data-date date
-                                    :title (str val " reports")}
-                                date]
-                               ]]])))])))
+            (unify @reports-by-date
+                   (fn [[label val]]
+                     (let [date (date-for-timestamp label)]
+                       [:div {:style {:width (str width "px")}}
+                        [:a {:href (str "/" date "/" date "/reports.csv")
+                             :class "download"}
+                         [:i {:class "fa fa-cloud-download"}]]
+                        [:div {:style {:height (str bar-height "px")
+                                       :width (str (s val) "px")
+                                       :background-color "gray"
+                                       :padding "4px"
+                                       :border "2px solid white"}}
+                         [:span {:style {:color "white"}}
+                          [:a {:href (str "#" date)
+                               :class "date"
+                               :data-date date
+                               :title (str val " reports")}
+                           date]
+                          ]]])))])))
 
 (defn types-chart
   [data]
@@ -81,10 +86,20 @@
 (defn parse-reports
   [resp]
   (let [results (js->clj (.getResponseJson (.-target resp)) :keywordize-keys true)
-        with-markers (map #(assoc % :marker (report-marker %)) results)]
-    (compare-and-set! reports @reports with-markers)
-    (bar-chart (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results)))))
-    (types-chart (sort #(> (last %1) (last %2)) (frequencies (map :description results))))
+        with-markers (map #(assoc % :marker (report-marker %)) results)
+        dates (sort (distinct (map #(date-for-timestamp (:endtime %)) results)))
+        by-date (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results))))
+        by-type (take 5 (sort #(> (last %1) (last %2)) (frequencies (map :description results))))]
+    (swap! reports #(assoc %
+                      :reports with-markers
+                      :all-by-date by-date
+                      :all-by-type by-type
+                      :start-date (first dates)
+                      :end-date (last dates)))
+    (reset! reports-by-date by-date)
+    (reset! reports-by-type by-type)
+    (bar-chart)
+    (types-chart (:reports-by-type @reports))
     (listen-on-chart)))
 
 (defn ^:export get-reports
@@ -100,25 +115,29 @@
 
 (defn- set-date
   [which ev]
-  (let [date (get ev "date")]
-    (.log js/console date)
-    (.log js/console
-          (str "set " which " date to "
-               (.getFullYear date) "-"
-               (+ 1 (.getMonth date)) "-"
-               (.getDate date)))))
+  (let [date (get ev "date")
+        date-str (str (.getFullYear date) "-"
+                      (+ 1 (.getMonth date)) "-"
+                      (+ 1 (.getDate date)))]
+    (swap! reports #(assoc % which date-str))
+    (reset! reports-by-date
+            (filter #(and (>= (first %) (:start-date @reports))
+                          (<= (first %) (:end-date @reports)))
+                    (:all-by-date @reports)))
+    (-> (js/$ (str "#" (name which)))
+        (.fdatepicker "hide"))))
 
 (defn listen-on-chart
   []
   (-> (js/$ "#end-date")
       (.fdatepicker)
-      (.on "changeDate" (fn [ev] (set-date "end" (js->clj ev)))))
+      (.on "changeDate" (fn [ev] (set-date :end-date (js->clj ev)))))
   (doseq [bar-link (sel :a.date)]
     (let [date (attr/attr bar-link "data-date")]
       (dommy/listen! bar-link :click
                      (fn [e]
                        (attr/toggle-class! (.-target e) "highlighted")
-                       (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date) @reports)]
+                       (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date) (:reports @reports))]
                          (if (.getMap (:marker report))
                            (.setMap (:marker report) nil)
                            (.setMap (:marker report) *map*))))))))
