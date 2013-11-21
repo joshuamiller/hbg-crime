@@ -31,6 +31,7 @@ div#map {
 nav.top-bar {
     margin-bottom: 1em;
 }
+
 // Fix for Google Maps stuff via https://github.com/zurb/foundation/issues/2462
 #map *, #map *:before, #map *:after {
     -moz-box-sizing: content-box!important;

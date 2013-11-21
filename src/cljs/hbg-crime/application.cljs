@@ -98,8 +98,21 @@
                            "mapTypeId" "roadmap"})]
     (set! *map* (google.maps.Map. (sel1 :#map) map-opts))))
 
+(defn- set-date
+  [which ev]
+  (let [date (get ev "date")]
+    (.log js/console date)
+    (.log js/console
+          (str "set " which " date to "
+               (.getFullYear date) "-"
+               (+ 1 (.getMonth date)) "-"
+               (.getDate date)))))
+
 (defn listen-on-chart
   []
+  (-> (js/$ "#end-date")
+      (.fdatepicker)
+      (.on "changeDate" (fn [ev] (set-date "end" (js->clj ev)))))
   (doseq [bar-link (sel :a.date)]
     (let [date (attr/attr bar-link "data-date")]
       (dommy/listen! bar-link :click
