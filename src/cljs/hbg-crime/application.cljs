@@ -1,5 +1,6 @@
 (ns hbg-crime.application
-  (:use [c2.core :only [unify]])
+  (:use [c2.core :only [unify]]
+        [goog.date :only [Date]])
   (:require [c2.scale :as scale]
             [dommy.attrs :as attr]
             [dommy.core :as dommy]
@@ -83,6 +84,14 @@
     (google.maps.event.addListener marker "click" (fn [] (.open window *map* marker)))
     marker))
 
+(defn- parse-date
+  [date]
+  (let [arr (str/split date #"-")
+        y (js/parseInt (first arr))
+        m (- (js/parseInt (nth arr 1)) 1)
+        d (- (js/parseInt (nth arr 2)) 1)]
+    (Date. y m d)))
+
 (defn parse-reports
   [resp]
   (let [results (js->clj (.getResponseJson (.-target resp)) :keywordize-keys true)
@@ -94,8 +103,8 @@
                       :reports with-markers
                       :all-by-date by-date
                       :all-by-type by-type
-                      :start-date (first dates)
-                      :end-date (last dates)))
+                      :start-date (parse-date (first dates))
+                      :end-date (parse-date (last dates))))
     (reset! reports-by-date by-date)
     (reset! reports-by-type by-type)
     (bar-chart)
@@ -115,14 +124,11 @@
 
 (defn- set-date
   [which ev]
-  (let [date (get ev "date")
-        date-str (str (.getFullYear date) "-"
-                      (+ 1 (.getMonth date)) "-"
-                      (+ 1 (.getDate date)))]
-    (swap! reports #(assoc % which date-str))
+  (let [date (Date. (get ev "date"))]
+    (swap! reports #(assoc % which date))
     (reset! reports-by-date
-            (filter #(and (>= (first %) (:start-date @reports))
-                          (<= (first %) (:end-date @reports)))
+            (filter #(and (>= (parse-date (first %)) (:start-date @reports))
+                          (<= (parse-date (first %)) (:end-date @reports)))
                     (:all-by-date @reports)))
     (-> (js/$ (str "#" (name which)))
         (.fdatepicker "hide"))))
@@ -131,7 +137,12 @@
   []
   (-> (js/$ "#end-date")
       (.fdatepicker)
+      (.fdatepicker "setValue" (.getTime (:end-date @reports)))
       (.on "changeDate" (fn [ev] (set-date :end-date (js->clj ev)))))
+  (-> (js/$ "#start-date")
+      (.fdatepicker)
+      (.fdatepicker "setValue" (.getTime (:start-date @reports)))
+      (.on "changeDate" (fn [ev] (set-date :start-date (js->clj ev)))))
   (doseq [bar-link (sel :a.date)]
     (let [date (attr/attr bar-link "data-date")]
       (dommy/listen! bar-link :click
