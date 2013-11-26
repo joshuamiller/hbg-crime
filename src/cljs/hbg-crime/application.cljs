@@ -89,7 +89,7 @@
   (let [arr (str/split date #"-")
         y (js/parseInt (first arr))
         m (- (js/parseInt (nth arr 1)) 1)
-        d (- (js/parseInt (nth arr 2)) 1)]
+        d (js/parseInt (nth arr 2))]
     (Date. y m d)))
 
 (defn parse-reports
@@ -127,11 +127,11 @@
   (let [date (Date. (get ev "date"))]
     (swap! reports #(assoc % which date))
     (reset! reports-by-date
-            (filter #(and (>= (parse-date (first %)) (:start-date @reports))
-                          (<= (parse-date (first %)) (:end-date @reports)))
-                    (:all-by-date @reports)))
-    (-> (js/$ (str "#" (name which)))
-        (.fdatepicker "hide"))))
+            (filter #(and (> (parse-date (date-for-timestamp (first %))) (:start-date @reports))
+                          (>= (:end-date @reports) (parse-date (date-for-timestamp (first %)))))
+                    (:all-by-date @reports))
+            (-> (js/$ (str "#" (name which)))
+                (.fdatepicker "hide")))))
 
 (defn listen-on-chart
   []
