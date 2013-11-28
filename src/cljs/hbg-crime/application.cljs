@@ -101,7 +101,7 @@
     (reset! reports-by-date by-date)
     (reset! reports-by-type by-type)
     (bar-chart)
-    (types-chart (:reports-by-type @reports))
+    (types-chart (:all-by-type @reports))
     (listen-on-chart)))
 
 (defn ^:export get-reports
@@ -115,7 +115,6 @@
                            "mapTypeId" "roadmap"})]
     (set! *map* (google.maps.Map. (sel1 :#map) map-opts))))
 
-
 ;; Dealing with awful JS Date problems
 ;; 
 
@@ -124,6 +123,8 @@
   (js/parseInt (str/replace date #"-" "")))
 
 (def offset-interval
+  ;; No way to add correct # of hours to fix time zone
+  ;; Add a day.
   (goog.date.Interval. 0 0 1))
 
 (defn- local-date-string-from-date
