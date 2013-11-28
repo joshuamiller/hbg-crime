@@ -2,6 +2,7 @@
   (:use [c2.core :only [unify]]
         [goog.date :only [Date]])
   (:require [c2.scale :as scale]
+            [goog.date.Interval]
             [dommy.attrs :as attr]
             [dommy.core :as dommy]
             [goog.net.XhrIo :as xhr]
@@ -84,14 +85,6 @@
     (google.maps.event.addListener marker "click" (fn [] (.open window *map* marker)))
     marker))
 
-(defn- parse-date
-  [date]
-  (let [arr (str/split date #"-")
-        y (js/parseInt (first arr))
-        m (- (js/parseInt (nth arr 1)) 1)
-        d (js/parseInt (nth arr 2))]
-    (Date. y m d)))
-
 (defn parse-reports
   [resp]
   (let [results (js->clj (.getResponseJson (.-target resp)) :keywordize-keys true)
@@ -103,8 +96,8 @@
                       :reports with-markers
                       :all-by-date by-date
                       :all-by-type by-type
-                      :start-date (parse-date (first dates))
-                      :end-date (parse-date (last dates))))
+                      :start-date (first dates)
+                      :end-date (last dates)))
     (reset! reports-by-date by-date)
     (reset! reports-by-type by-type)
     (bar-chart)
@@ -122,26 +115,42 @@
                            "mapTypeId" "roadmap"})]
     (set! *map* (google.maps.Map. (sel1 :#map) map-opts))))
 
+
+;; Dealing with awful JS Date problems
+;; 
+
+(defn- date-as-int
+  [date]
+  (js/parseInt (str/replace date #"-" "")))
+
+(def offset-interval
+  (goog.date.Interval. 0 0 1))
+
+(defn- local-date-string-from-date
+  [d]
+  ;; Dear lord why does this alter a date in place
+  (.add d offset-interval)
+  (date-for-timestamp (.toIsoString d)))
+
 (defn- set-date
   [which ev]
-  (let [date (Date. (get ev "date"))]
+  (let [date (local-date-string-from-date (goog.date.Date. (get ev "date")))]
     (swap! reports #(assoc % which date))
     (reset! reports-by-date
-            (filter #(and (> (parse-date (date-for-timestamp (first %))) (:start-date @reports))
-                          (>= (:end-date @reports) (parse-date (date-for-timestamp (first %)))))
-                    (:all-by-date @reports))
+            (filter #(<= (date-as-int (:start-date @reports))
+                         (date-as-int (date-for-timestamp (first %)))
+                         (date-as-int (:end-date @reports)))
+                    (:all-by-date @reports)))
             (-> (js/$ (str "#" (name which)))
-                (.fdatepicker "hide")))))
+                (.fdatepicker "hide"))))
 
 (defn listen-on-chart
   []
   (-> (js/$ "#end-date")
       (.fdatepicker)
-      (.fdatepicker "setValue" (.getTime (:end-date @reports)))
       (.on "changeDate" (fn [ev] (set-date :end-date (js->clj ev)))))
   (-> (js/$ "#start-date")
       (.fdatepicker)
-      (.fdatepicker "setValue" (.getTime (:start-date @reports)))
       (.on "changeDate" (fn [ev] (set-date :start-date (js->clj ev)))))
   (doseq [bar-link (sel :a.date)]
     (let [date (attr/attr bar-link "data-date")]
