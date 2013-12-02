@@ -1,0 +1,143 @@
+.datepicker.dropdown-menu {
+    background-clip: padding-box;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    color: #333333;
+    display: none;
+    float: left;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    left: 0;
+    line-height: 18px;
+    list-style: none outside none;
+    min-width: 160px;
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+}
+.datepicker.dropdown-menu th, .datepicker.dropdown-menu td {
+    padding: 4px 5px;
+}
+.datepicker {
+    direction: ltr;
+    display: none;
+    margin-top: 1px;
+    padding: 4px;
+    position: absolute;
+}
+.datepicker-inline {
+    width: 220px;
+}
+.datepicker-rtl {
+    direction: rtl;
+}
+.datepicker-rtl table tr td span {
+    float: right;
+}
+.datepicker-dropdown {
+    left: 0;
+    top: 0;
+}
+.datepicker-dropdown:before {
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid rgba(0, 0, 0, 0);
+    border-right: 7px solid rgba(0, 0, 0, 0);
+    content: "";
+    display: inline-block;
+    left: 6px;
+    position: absolute;
+    top: -7px;
+}
+.datepicker-dropdown:after {
+    border-bottom: 6px solid #FFFFFF;
+    border-left: 6px solid rgba(0, 0, 0, 0);
+    border-right: 6px solid rgba(0, 0, 0, 0);
+    content: "";
+    display: inline-block;
+    left: 7px;
+    position: absolute;
+    top: -6px;
+}
+.datepicker > div {
+    display: none;
+}
+.datepicker.days div.datepicker-days {
+    display: block;
+}
+.datepicker.months div.datepicker-months {
+    display: block;
+}
+.datepicker.years div.datepicker-years {
+    display: block;
+}
+.datepicker table {
+    border: 0 none;
+    margin: 0;
+}
+.datepicker td, .datepicker th {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 0 none;
+    cursor: pointer;
+    font-size: 12px;
+    height: 20px;
+    padding: 4px 8px;
+    text-align: center;
+    width: 20px;
+}
+.datepicker td.active.day, .datepicker th.active.day {
+    background: none repeat scroll 0 0 #2BA6CB;
+}
+.datepicker td.active.year, .datepicker th.active.year {
+    background: none repeat scroll 0 0 #2BA6CB;
+}
+.datepicker td span.active, .datepicker th span.active {
+    background: none repeat scroll 0 0 #2BA6CB;
+}
+.table-striped .datepicker table tr td, .table-striped .datepicker table tr th {
+    background-color: rgba(0, 0, 0, 0);
+}
+.datepicker table tr td span {
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 54px;
+    line-height: 54px;
+    margin: 1%;
+    width: 23%;
+}
+.datepicker th.date-switch {
+    width: 145px;
+}
+.datepicker thead tr:first-child th, .datepicker tfoot tr:first-child th {
+    cursor: pointer;
+}
+.datepicker .cw {
+    font-size: 10px;
+    padding: 0 2px 0 5px;
+    vertical-align: middle;
+    width: 12px;
+}
+.datepicker thead tr:first-child th.cw {
+    background-color: rgba(0, 0, 0, 0);
+    cursor: default;
+}
+.datepicker-dropdown:before, .datepicker-dropdown:after {
+    display: none;
+}
+.datepicker-close {
+    display: none;
+    height: 30px;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: -30px;
+    width: 15px;
+}
+.datepicker td.old, .datepicker td.new {
+    color: #999999;
+}
+.datepicker td.day.disabled {
+    color: #EEEEEE;
+}

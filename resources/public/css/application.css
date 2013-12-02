@@ -31,6 +31,16 @@ div#map {
 nav.top-bar {
     margin-bottom: 1em;
 }
+a.date-change {
+    height: 30px;
+    background-color: #2ba6cb;
+    color: white;
+    border: 2px solid white;
+    padding: 4px;
+    width: 220px;
+    display: block;
+}
+
 // Fix for Google Maps stuff via https://github.com/zurb/foundation/issues/2462
 #map *, #map *:before, #map *:after {
     -moz-box-sizing: content-box!important;

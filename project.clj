@@ -26,7 +26,9 @@
               [{:source-paths ["src/cljs"]
                 :compiler
                 {:output-to "resources/public/hbg-crime.js"
-                 :externs ["google_maps_api_v3.js"]
+                 :externs ["google_maps_api_v3.js"
+                           "jquery-1.9.js"
+                           "foundation-datepicker.js"]
                  :optimizations :advanced}}]}
   :plugins [[lein-ring "0.8.2"]
             [lein-cljsbuild "0.3.4"]]
