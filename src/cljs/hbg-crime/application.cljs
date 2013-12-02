@@ -57,13 +57,13 @@
                           ]]])))])))
 
 (defn types-chart
-  [data]
+  []
   (bind! "#types"
          [:tbody#types
-          (unify data (fn [[label val]]
-                        [:tr
-                         [:td label]
-                         [:td val]]))]))
+          (unify @reports-by-type (fn [[label val]]
+                                    [:tr
+                                     [:td label]
+                                     [:td val]]))]))
 
 (defn info-window-content
   [report]
@@ -85,23 +85,26 @@
     (google.maps.event.addListener marker "click" (fn [] (.open window *map* marker)))
     marker))
 
+(defn- by-type
+  [reports]
+  (take 5 (sort #(> (last %1) (last %2)) (frequencies (map :description reports)))))
+
 (defn parse-reports
   [resp]
   (let [results (js->clj (.getResponseJson (.-target resp)) :keywordize-keys true)
         with-markers (map #(assoc % :marker (report-marker %)) results)
         dates (sort (distinct (map #(date-for-timestamp (:endtime %)) results)))
         by-date (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results))))
-        by-type (take 5 (sort #(> (last %1) (last %2)) (frequencies (map :description results))))]
+]
     (swap! reports #(assoc %
                       :reports with-markers
                       :all-by-date by-date
-                      :all-by-type by-type
                       :start-date (first dates)
                       :end-date (last dates)))
     (reset! reports-by-date by-date)
-    (reset! reports-by-type by-type)
+    (reset! reports-by-type (by-type results))
     (bar-chart)
-    (types-chart (:all-by-type @reports))
+    (types-chart)
     (listen-on-chart)))
 
 (defn ^:export get-reports
@@ -142,8 +145,14 @@
                          (date-as-int (date-for-timestamp (first %)))
                          (date-as-int (:end-date @reports)))
                     (:all-by-date @reports)))
-            (-> (js/$ (str "#" (name which)))
-                (.fdatepicker "hide"))))
+    (reset! reports-by-type
+            (by-type
+             (filter #(<= (date-as-int (:start-date @reports))
+                          (date-as-int (date-for-timestamp (:endtime %)))
+                          (date-as-int (:end-date @reports)))
+                     (:reports @reports))))
+    (-> (js/$ (str "#" (name which)))
+        (.fdatepicker "hide"))))
 
 (defn listen-on-chart
   []
