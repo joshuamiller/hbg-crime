@@ -13,6 +13,7 @@ a.download:hover {
 }
 a.date {
     color: #CCC;
+    white-space: nowrap;
 }
 a.date:visited {
     color: #CCC;
