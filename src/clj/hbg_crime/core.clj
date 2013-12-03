@@ -50,10 +50,20 @@
      :address (str/trim (nth matches 3))
      :description (str/trim (nth matches 4))}))
 
+;; Harrisburg city zips (not perfect)
+(def zips #{"17101" "17102" "17103" "17104" "17120" "17110"})
+(defn- first-zip-match
+  [results]
+  (first (filter #(not (empty? (filter
+                                (fn [el]
+                                  (contains? zips (:short-name el)))
+                                (:address-components %))))
+                 results)))
+
 (defn geocode-report
   [report]
-  (let [res (first (geo/geocode-address
-                    (str (:address report) ", Harrisburg, PA")))
+  (let [res (first-zip-match (geo/geocode-address
+                              (str (:address report) ", Harrisburg, PA")))
         loc (get-in res [:geometry :location])]
     (merge report loc)))
 
