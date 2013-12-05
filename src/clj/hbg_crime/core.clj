@@ -61,15 +61,19 @@
                                 (:address-components %))))
                  results)))
 
+(defn classify-neighborhood
+  [report]
+  (if-let [neighborhood (g/neighborhood-for-point [(:lng report) (:lat report)])]
+    (name neighborhood)))
+
 (defn geocode-report
   [report]
   (let [res (first-zip-match (geo/geocode-address
                               (str (:address report) ", Harrisburg, PA")))
-        loc (get-in res [:geometry :location])
-        neighborhood (g/neighborhood-for-point [(:lng loc) (:lat loc)])]
+        loc (get-in res [:geometry :location])]
     (-> report
         (merge loc)
-        (assoc :neighborhood (if neighborhood (name neighborhood))))))
+        (assoc :neighborhood (classify-neighborhood report)))))
 
 (defn results-of-file
   [src]
@@ -90,6 +94,11 @@
   [& [n]]
   (doseq [report (filter identity (all-current-reports n))]
     (db/insert-report report)))
+
+(defn assign-neighborhoods
+  []
+  (doseq [report (db/ungeocoded-reports)]
+    (db/update-report! (assoc report :neighborhood (classify-neighborhood report)))))
 
 (defn regeocode-reports
   []
