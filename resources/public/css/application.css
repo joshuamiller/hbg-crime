@@ -42,6 +42,9 @@ a.date-change {
     width: 220px;
     display: block;
 }
+table {
+    width: 90%
+}
 
 // Fix for Google Maps stuff via https://github.com/zurb/foundation/issues/2462
 #map *, #map *:before, #map *:after {
