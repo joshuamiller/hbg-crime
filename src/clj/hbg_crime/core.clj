@@ -11,7 +11,8 @@
             [geocoder.google :as geo]
             [clj-time.core :as tc]
             [clj-time.format :as tf]
-            [hbg-crime.db :as db]))
+            [hbg-crime.db :as db]
+            [hbg-crime.geometry :as g]))
 
 (defn police-blog-feed
   []
@@ -64,8 +65,11 @@
   [report]
   (let [res (first-zip-match (geo/geocode-address
                               (str (:address report) ", Harrisburg, PA")))
-        loc (get-in res [:geometry :location])]
-    (merge report loc)))
+        loc (get-in res [:geometry :location])
+        neighborhood (g/neighborhood-for-point [(:lng loc) (:lat loc)])]
+    (-> report
+        (merge loc)
+        (assoc :neighborhood (if neighborhood (name neighborhood))))))
 
 (defn results-of-file
   [src]

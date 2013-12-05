@@ -47,7 +47,7 @@
 
 (defn ungeocoded-reports
   []
-  (j/query db (s/select * :reports "where lat is null")))
+  (j/query db (s/select * :reports "where neighborhood is null")))
 
 (defn all-reports
   []

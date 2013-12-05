@@ -23,8 +23,8 @@
 
 (defn- reports-table
   [data]
-  (vec (cons ["Start" "End" "Description" "Address" "Lat" "Lon"]
-             (map #(vec [(str (:starttime %)) (str (:endtime %)) (:description %) (:address %) (str (:lat %)) (str (:lng %))]) data))))
+  (vec (cons ["Start" "End" "Description" "Address" "Lat" "Lon" "Neighborhood"]
+             (map #(vec [(str (:starttime %)) (str (:endtime %)) (:description %) (:address %) (str (:lat %)) (str (:lng %)) (str (:neighborhood %))]) data))))
 
 (defn reports-csv
   [req start end]
