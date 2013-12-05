@@ -26,8 +26,9 @@ a.date.highlighted:visited {
 }
 div#map {
     border: 2px solid #CCC;
-    min-height: 600px;
+    min-height: 300px;
     margin-top: 3em;
+    margin-bottom: 1em;
 }
 nav.top-bar {
     margin-bottom: 1em;

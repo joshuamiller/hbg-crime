@@ -50,21 +50,38 @@
            data-date-format="yyyy-mm-dd" href="#">Change Start Date</a>
       </div>
 
-      <div class="small-6 large-5 columns" id="map">
-      </div>
-
-      <div class="small-6 large-4 columns">
-        <h3>Reports by Type</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Offense</th>
-              <th>Frequency</th>
-            </tr>
-          </thead>
-          <tbody id="types">
-          </tbody>
-        </table>
+      <div class="small-6 large-9 columns">
+        <div class="row">
+          <div class="small-12 columns" id="map"></div>
+        </div>
+        <div class="row">
+          <div class="small-6 columns">
+            <h3>Top Categories</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Offense</th>
+                  <th>Frequency</th>
+                </tr>
+              </thead>
+              <tbody class="results" id="types">
+              </tbody>
+            </table>
+          </div>
+          <div class="small-6 columns">
+            <h3>Top Neighborhoods</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Neighborhood</th>
+                  <th>Reports</th>
+                </tr>
+              </thead>
+              <tbody class="results" id="neighborhoods">
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 

@@ -4,6 +4,7 @@
                                 local-date-string-from-date
                                 within?]])
   (:require [c2.scale :as scale]
+            [clojure.string :as string]
             [dommy.attrs :as attr]
             [dommy.core :as dommy]
             [goog.net.XhrIo :as xhr])
@@ -22,6 +23,7 @@
                     :end-date ""}))
 (def reports-by-date (atom []))
 (def reports-by-type (atom []))
+(def reports-by-neighborhood (atom []))
 
 (defn bar-chart
   []
@@ -51,14 +53,18 @@
                            date]
                           ]]])))])))
 
-(defn types-chart
-  []
-  (bind! "#types"
-         [:tbody#types
-          (unify @reports-by-type (fn [[label val]]
-                                    [:tr
-                                     [:td label]
-                                     [:td val]]))]))
+(defn- title-case
+  [s]
+  (string/join " " (map string/capitalize (string/split s #"[- ]"))))
+
+(defn table-chart
+  [id data]
+  (bind! (str "#" id)
+         [(keyword (str "tbody.results#" id))
+          (unify @data (fn [[label val]]
+                        [:tr
+                         [:td (title-case label)]
+                         [:td val]]))]))
 
 (defn info-window-content
   [report]
@@ -86,6 +92,11 @@
   [reports]
   (take 5 (sort #(> (last %1) (last %2)) (frequencies (map :description reports)))))
 
+(defn- by-neighborhood
+  "Neighborhoods ordered by crime frequency"
+  [reports]
+  (sort #(> (last %1) (last %2)) (frequencies (map :neighborhood reports))))
+
 (defn parse-reports
   "Parse reports JSON and assign results to appropriate atoms."
   [resp]
@@ -101,8 +112,10 @@
                       :end-date (last dates)))
     (reset! reports-by-date by-date)
     (reset! reports-by-type (by-type results))
+    (reset! reports-by-neighborhood (by-neighborhood results))
     (bar-chart)
-    (types-chart)
+    (table-chart "types" reports-by-type)
+    (table-chart "neighborhoods" reports-by-neighborhood)
     (listen-on-chart)))
 
 (defn ^:export get-reports
@@ -128,12 +141,14 @@
                               (:start-date @reports)
                               (:end-date @reports))
                     (:all-by-date @reports)))
-    (reset! reports-by-type
-            (by-type
-             (filter #(within? (date-for-timestamp (:endtime %))
-                               (:start-date @reports)
-                               (:end-date @reports))
-                     (:reports @reports))))
+    (let [filtered-reports (filter #(within? (date-for-timestamp (:endtime %))
+                                             (:start-date @reports)
+                                             (:end-date @reports))
+                                   (:reports @reports))]
+      (reset! reports-by-type
+              (by-type filtered-reports))
+      (reset! reports-by-neighborhood
+              (by-neighborhood filtered-reports)))
     (-> (js/$ (str "#" (name which)))
         (.fdatepicker "hide"))))
 
