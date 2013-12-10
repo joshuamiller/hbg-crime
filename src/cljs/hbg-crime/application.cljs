@@ -11,8 +11,8 @@
   (:use-macros [c2.util :only [bind!]]
                [dommy.macros :only [sel sel1 node]]))
 
-;; Map center point. 7th and Basin St.
-(def lon -76.884382)
+;; Map center point. 12th and Herr St
+(def lon -76.874382)
 (def lat 40.2725855)
 
 (declare listen-on-chart)

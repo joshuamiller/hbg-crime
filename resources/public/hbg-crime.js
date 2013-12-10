@@ -8711,7 +8711,7 @@ ea("hbg_crime.application.get_reports", function() {
   a.send("reports.json", "GET", void 0, void 0)
 });
 ea("hbg_crime.application.create_map", function() {
-  var a = Jg(gb(["center", new google.maps.LatLng(40.2725855, -76.884382), "zoom", 13, "mapTypeId", "roadmap"], !0));
+  var a = Jg(gb(["center", new google.maps.LatLng(40.2725855, -76.874382), "zoom", 13, "mapTypeId", "roadmap"], !0));
   return Lk = new google.maps.Map(document.getElementById("map"), a)
 });
 function Wk(a, b) {
