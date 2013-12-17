@@ -2,6 +2,7 @@
   (:use environ.core)
   (:require [clojure.java.jdbc :as j]
             [clojure.java.jdbc.sql :as s]
+            [clojure.string :as string]
             [clj-time.core :as time]
             [clj-time.coerce :as coerce]))
 
@@ -73,3 +74,14 @@
                                         start
                                         "' and endtime::date <= '"
                                         end "'"))))
+
+(defn reports-for-range-grouped-by
+  [start end column value]
+  (j/query db (s/select "endtime::date, count(*)" :reports
+                        (str "where endtime::date >= '"
+                             start
+                             "' and endtime::date <= '"
+                             end
+                             "' and " column " = '"
+                             (string/replace value #"'" "''") "' "
+                             "group by endtime::date"))))
