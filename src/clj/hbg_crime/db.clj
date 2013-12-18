@@ -57,6 +57,10 @@
             :endtime (format-local (:endtime %))
             :starttime (format-local (:starttime %))) reports)))
 
+(defn single-report
+  [id]
+  (first (j/query db (s/select * :reports (s/where {:id id})))))
+
 (defn update-report!
   [report]
   (let [id (:id report)]

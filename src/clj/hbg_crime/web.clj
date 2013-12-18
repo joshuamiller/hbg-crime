@@ -9,7 +9,8 @@
             [net.cgrand.moustache :as moustache]
             [ring.adapter.jetty :as jetty]
             [hbg-crime.core :as hc]
-            [hbg-crime.db :as db]))
+            [hbg-crime.db :as db]
+            [hbg-crime.stats :as stats]))
 
 (defn reports-html
   [req]
@@ -30,12 +31,18 @@
   [req start end]
   (response (write-csv (reports-table (db/reports-for-range start end)))))
 
+(defn report-related-json
+  [req id]
+  (if-let [report (db/single-report (Integer/parseInt id))]
+    (response (encode (stats/related-week-for-report report)))))
+
 (def routes
   (moustache/app
    (wrap-params)
    (wrap-content-type)
    (wrap-resource "public")
    ["reports"] {:get (fn [req] (reports-html req))}
+   ["reports" id "related.json"] {:get (fn [req] (report-related-json req id))}
    ["reports.json"] {:get (fn [req] (reports-json req))}
    [start end "reports.json"] {:get (fn [req] (reports-json req start end))}
    [start end "reports.csv"] {:get (fn [req] (reports-csv req start end))}
