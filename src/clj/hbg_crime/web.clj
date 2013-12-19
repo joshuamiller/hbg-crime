@@ -28,8 +28,10 @@
              (map #(vec [(str (:starttime %)) (str (:endtime %)) (:description %) (:address %) (str (:lat %)) (str (:lng %)) (str (:neighborhood %))]) data))))
 
 (defn reports-csv
-  [req start end]
-  (response (write-csv (reports-table (db/reports-for-range start end)))))
+  ([req]
+     (response (write-csv (reports-table (db/all-reports)))))
+  ([req start end]
+     (response (write-csv (reports-table (db/reports-for-range start end))))))
 
 (defn report-related-json
   [req id]
@@ -44,6 +46,7 @@
    ["reports"] {:get (fn [req] (reports-html req))}
    ["reports" id "related.json"] {:get (fn [req] (report-related-json req id))}
    ["reports.json"] {:get (fn [req] (reports-json req))}
+   ["reports.csv"] {:get (fn [req] (reports-csv req))}
    [start end "reports.json"] {:get (fn [req] (reports-json req start end))}
    [start end "reports.csv"] {:get (fn [req] (reports-csv req start end))}
    [""] {:get (fn [req] (redirect "index.html"))}))
