@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html>
+  <head>
+	  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Harrisburg Crime Reports - hbg-crime.org</title>
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/foundation-datepicker.css">
+    <link rel="stylesheet" href="css/application.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <script src="js/vendor/custom.modernizr.js"></script>
+    <script type="text/javascript"
+    src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="js/vendor/foundation-datepicker.js"></script>
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4nW9TfXDdu3ubfJWYQymE8Zr6YZAeh_w&sensor=true">
+    </script>
+  </head>
+  <body>
+
+    <nav class="top-bar">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/index.html" class="name">Harrisburg Crime
+          Reports</a></h1>
+        </li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="right">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/developers.html">Developers</a></li>
+          <li><a href="/support.html" class="active">The App</a></li>
+        </ul>
+      </section>
+    </nav>
+
+	  <div class="row">
+			<div class="small-12 columns" id="dates">
+        <h1>The Harrisburg Crime Tracker App</h1>
+
+        <img src="/img/app-logo.png"/>
+
+        <h1 class="Subheader">Support</h1>
+        <p>Need help with the app? Contact
+        Josh <a href="mailto:josh@joshinharrisburg.com">by email</a>,
+        <a href="http://joshmiller.io">on the web</a>,
+        or <a href="http://twitter.com/sendmehome">on Twitter</a>.</p>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="hbg-crime.js"></script>
+    <script type="text/javascript">
+      hbg_crime.application.create_map();
+      hbg_crime.application.get_reports();
+    </script>
+  </body>
+</html>
