@@ -88,4 +88,5 @@
                              end
                              "' and " column " = '"
                              (string/replace value #"'" "''") "' "
-                             "group by endtime::date"))))
+                             "group by endtime::date "
+                             "order by endtime::date desc"))))
