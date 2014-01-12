@@ -69,7 +69,7 @@
 (defn geocode-report
   [report]
   (let [res (first-zip-match (geo/geocode-address
-                              (str (:address report) ", Harrisburg, PA")))
+                              (str (str/replace (:address report) "FIRST BLK" "100") ", Harrisburg, PA")))
         loc (get-in res [:geometry :location])]
     (-> report
         (merge loc)
