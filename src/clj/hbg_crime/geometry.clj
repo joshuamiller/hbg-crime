@@ -174,5 +174,5 @@
   {:downtown downtown
    :midtown midtown
    :uptown uptown
-   :norther-tier northern-tier
+   :northern-tier northern-tier
    :allison-hill allison-hill})
