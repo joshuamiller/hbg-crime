@@ -4,7 +4,6 @@
            [java.io File StringWriter]
            [java.net URL])
   (:require [clojure.string :as str]
-            [feedparser-clj.core :as feed]
             [net.cgrand.enlive-html :as html]
             [cheshire.core :as json]
             [clojure-csv.core :as csv]
@@ -14,10 +13,6 @@
             [hbg-crime.db :as db]
             [hbg-crime.geometry :as g]))
 
-(defn police-blog-feed
-  []
-  (feed/parse-feed "http://harrisburgpa.gov/feed/"))
-
 (defn pdf-link-for-url
   [url]
   (let [source (-> url URL. html/html-resource)
@@ -25,12 +20,15 @@
         links (map #(get-in % [:attrs :href]) entries)]
     (first (filter #(re-find #"Crime" %) links))))
 
+(def crime-reports-url
+  "http://harrisburgpa.gov/police-log/")
+
 (defn current-crime-report-links
   []
-  (->> (:entries (police-blog-feed))
-       (filter #(re-find #"Crime Report" (:title %)))
-       (map :link)
-       (map pdf-link-for-url)))
+  (let [source (-> crime-reports-url URL. html/html-resource)
+        entries (html/select source [:a.pdf])
+        crime-links (filter #(= "crime" (get-in % [:attrs :data-tags])) entries)]
+    (map #(get-in % [:attrs :href]) crime-links)))
 
 (defn text-of-pdf
   [url]
