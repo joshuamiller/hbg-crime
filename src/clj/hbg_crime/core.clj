@@ -13,13 +13,6 @@
             [hbg-crime.db :as db]
             [hbg-crime.geometry :as g]))
 
-(defn pdf-link-for-url
-  [url]
-  (let [source (-> url URL. html/html-resource)
-        entries (html/select source [:div.post_text :p :a])
-        links (map #(get-in % [:attrs :href]) entries)]
-    (first (filter #(re-find #"Crime" %) links))))
-
 (def crime-reports-url
   "http://harrisburgpa.gov/police-log/")
 
