@@ -48,7 +48,7 @@
 
 (defn ungeocoded-reports
   []
-  (j/query db (s/select * :reports "where neighborhood is null")))
+  (j/query db (s/select * :reports "where neighborhood is null order by endtime::date desc")))
 
 (defn all-reports
   []
