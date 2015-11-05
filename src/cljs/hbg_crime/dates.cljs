@@ -31,3 +31,15 @@
   (<= (date-as-int start)
       (date-as-int d)
       (date-as-int end)))
+
+(defn today
+  []
+
+  (goog.date.Date.))
+
+(defn month-ago
+  []
+  (let [date     (today)
+        interval (goog.date.Interval. 0 0 -30)]
+    (.add date interval)
+    date))

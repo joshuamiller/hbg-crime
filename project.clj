@@ -14,21 +14,27 @@
                  [org.clojure/java.jdbc "0.3.0-alpha5"]
                  [postgresql "9.1-901.jdbc4"]
                  [clj-time "0.4.4"]
-                 [net.cgrand/moustache "1.1.0"]
+                 [net.cgrand/moustache "1.1.0" :exclusions
+                  [ring/ring-core org.clojure/clojure]]
                  [ring "1.0.3"]
                  [environ "0.4.0"]
-                 [prismatic/dommy "0.1.1"]
-                 [com.keminglabs/c2 "0.2.3"]
-                 [instaparse "1.4.1"]]
+                 [prismatic/dommy "1.1.0"]
+                 [instaparse "1.4.1"]
+                 [cljs-ajax "0.5.1"]
+                 [reagent "0.5.1"]]
   :source-paths ["src/clj"]
   :cljsbuild {:builds
               [{:source-paths ["src/cljs"]
                 :compiler
                 {:output-to "resources/public/hbg-crime.js"
+                 :output-dir "resources/public"
                  :externs ["google_maps_api_v3.js"
                            "jquery-1.9.js"
                            "foundation-datepicker.js"]
-                 :optimizations :advanced}}]}
+                 :optimizations :whitespace
+                 :source-map "resources/public/hbg-crime.js.map"
+                 :pretty-print true
+                 }}]}
   :plugins [[lein-ring "0.8.13"]
             [lein-cljsbuild "1.1.0"]]
   :ring {:handler hbg-crime.web/routes}

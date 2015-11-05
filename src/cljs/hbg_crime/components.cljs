@@ -1,10 +1,9 @@
 (ns hbg-crime.components
-  (:require [c2.scale :as scale]
-            [clojure.string :as string]
-            [dommy.attrs :as attr]
+  (:require [clojure.string :as string]
+            [dommy.core :refer [toggle-class! px]
+             :refer-macros [sel1]]
             [hbg-crime.dates :refer [date-for-timestamp]]
-            [reagent.core :as r])
-  (:use-macros [dommy.macros :only [sel1]]))
+            [reagent.core :as r]))
 
 (declare *map*)
 
@@ -51,26 +50,31 @@
 
 (defn bar-click
   [ev]
-  (attr/toggle-class! (.-target e) "highlighted")
+  (toggle-class! (.-target ev) "highlighted")
   (doseq [report (filter #(= (date-for-timestamp (:endtime %))) @reports)]
     (if (.getMap (:marker report))
       (.setMap (:marker report) nil)
       (.setMap (:marker report) *map*))))
 
+(defn scale
+  [[domain-min domain-max] [range-min range-max] val]
+  (let [ratio (/ val (- domain-max domain-min))]
+    (* ratio (- range-max range-min))))
+
 (defn bar-chart
   []
-  (let [width (attr/px (sel1 :#barchart) :width)
+  (let [width (px (sel1 :#barchart) :width)
         bar-height 30
-        s (scale/linear :domain [0 (apply max (vals (reports-by-date)))]
-                        :range [0 width])]
+        domain [0 (apply max (vals (reports-by-date)))]
+        range [0 width]]
     [:div#bars
-     (for [(reports-by-date) [date val]]
+     (for [[date val] (reports-by-date)]
        [:div {:style {:width (str width "px")}}
         [:a {:href (str "/" date "/" date "/reports.csv")
              :class "download"}
          [:i {:class "fa fa-cloud-download"}]]
         [:div {:style {:height (str bar-height "px")
-                       :width (str (s val) "px")
+                       :width (str (scale domain range val) "px")
                        :background-color "gray"
                        :padding "4px"
                        :border "2px solid white"}}
@@ -88,10 +92,10 @@
 
 (defn table-chart
   [src]
-  (for [src [name val]])
-  [:tr
-   [:td (title-case name)]
-   [:td val]])
+  (for [[name val] src]
+    [:tr
+     [:td (title-case name)]
+     [:td val]]))
 
 (defn neighborhood-table
   []

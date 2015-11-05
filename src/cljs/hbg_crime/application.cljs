@@ -1,12 +1,11 @@
 (ns hbg-crime.application
   (:require [ajax.core :refer [GET]]
-            [dommy.core :as dommy]
+            [dommy.core :as dommy :refer-macros [sel1]]
             [hbg-crime.components :refer [*map*] :as comp]
             [hbg-crime.dates :refer [date-for-timestamp
                                      local-date-string-from-date
-                                     within?]]
-            [reagent.core :as r])
-  (:use-macros [dommy.macros :only [sel sel1 node]]))
+                                     within? today month-ago]]
+            [reagent.core :as r]))
 
 ;; Map center point. 12th and Herr St
 (def lon -76.874382)
@@ -18,7 +17,7 @@
   [report marker]
   (google.maps.InfoWindow.
    (clj->js {:content (r/render-component-to-string
-                       (info-window-content report))})))
+                       (comp/info-window-content report))})))
 
 (defn report-marker
   "Build a Google Maps marker and give it an info window."
@@ -34,20 +33,29 @@
     marker))
 
 (defn parse-reports
-  "Parse reports JSON and assign results to appropriate atoms."
+  "Parse reports JSON and assign results to appropriate atom."
   [results]
   (let [with-markers (map #(assoc % :marker (report-marker %)) results)]
-    (swap! comp/reports with-markers)
+    (.log js/console (clj->js with-markers))
+    (reset! comp/reports with-markers)
     (listen-on-chart)))
 
-(defn ^:export get-reports
+(defn get-reports
   "Get current reports from the server and trigger parse/display functions."
-  []
-  (GET "reports.json" {:handler parse-reports
-                       :reponse-format :json
-                       :keywords? true}))
+  ([]
+   (get-reports (month-ago) (today)))
+  ([start end]
+   (.log js/console (str (date-for-timestamp start) "/"
+             (date-for-timestamp end) "/"
+             "reports.json"))
+   (GET (str (date-for-timestamp start) "/"
+             (date-for-timestamp end) "/"
+             "reports.json")
+        {:handler parse-reports
+         :reponse-format :json
+         :keywords? true})))
 
-(defn ^:export create-map
+(defn create-map
   "Create a Google Map element, center it, and assign it to the *map* var."
   []
   (let [map-opts (clj->js {"center" (google.maps.LatLng. lat lon)
@@ -56,25 +64,13 @@
     (set! *map* (google.maps.Map. (sel1 :#map) map-opts))))
 
 (defn- set-date
-  "On date range change, alter the date/type atoms so they're re-rendered."
   [which ev]
   (let [date (local-date-string-from-date (get ev "date"))]
-    (swap! reports #(assoc % which date))
-    (reset! reports-by-date
-            (filter #(within? (date-for-timestamp (first %))
-                              (:start-date @reports)
-                              (:end-date @reports))
-                    (:all-by-date @reports)))
-    (let [filtered-reports (filter #(within? (date-for-timestamp (:endtime %))
-                                             (:start-date @reports)
-                                             (:end-date @reports))
-                                   (:reports @reports))]
-      (reset! reports-by-type
-              (by-type filtered-reports))
-      (reset! reports-by-neighborhood
-              (by-neighborhood filtered-reports)))
-    (-> (js/$ (str "#" (name which)))
-        (.fdatepicker "hide"))))
+    (case which
+      :start-date (get-reports date (comp/end-date))
+      :end-date (get-reports (comp/start-date) date)))
+  (-> (js/$ (str "#" (name which)))
+    (.fdatepicker "hide")))
 
 (defn listen-on-chart
   "Sets listeners on reports by date chart to change date range and to
@@ -82,7 +78,10 @@
   []
   (-> (js/$ "#end-date")
       (.fdatepicker)
-      (.on "changeDate" (fn [ev] (set-date :end-date (js->clj ev)))))
+      (.on "changeDate" #(set-date :end-date (js->clj %))))
   (-> (js/$ "#start-date")
       (.fdatepicker)
-      (.on "changeDate" (fn [ev] (set-date :start-date (js->clj ev))))))
+      (.on "changeDate" #(set-date :start-date (js->clj %)))))
+
+(create-map)
+(get-reports)
