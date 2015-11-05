@@ -100,3 +100,12 @@
 (defn category-table
   []
   (table-chart (reports-by-category)))
+
+(defn info-window-content
+  [report]
+  [:dl
+   [:dt (:description report)]
+   [:dd
+    (:address report)
+    [:br]
+    (:endtime report)]])

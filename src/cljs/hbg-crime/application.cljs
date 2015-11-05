@@ -4,7 +4,8 @@
             [hbg-crime.components :refer [*map*] :as comp]
             [hbg-crime.dates :refer [date-for-timestamp
                                      local-date-string-from-date
-                                     within?]])
+                                     within?]]
+            [reagent.core :as r])
   (:use-macros [dommy.macros :only [sel sel1 node]]))
 
 ;; Map center point. 12th and Herr St
@@ -13,15 +14,11 @@
 
 (declare listen-on-chart)
 
-(defn info-window-content
-  [report]
-  (str "<dl><dt>" (:description report) "</dt>"
-       "<dd>"     (:address report)
-       "<br/>"    (:endtime report) "</dd></dl>"))
-
 (defn info-window-for-report
   [report marker]
-  (google.maps.InfoWindow. (clj->js {"content" (info-window-content report)})))
+  (google.maps.InfoWindow.
+   (clj->js {:content (r/render-component-to-string
+                       (info-window-content report))})))
 
 (defn report-marker
   "Build a Google Maps marker and give it an info window."
@@ -29,9 +26,11 @@
   (let [lat (:lat r)
         lng (:lng r)
         pos (google.maps.LatLng. lat lng)
-        marker (google.maps.Marker. (clj->js {"position" pos "title" (:description r)}))
+        marker (google.maps.Marker.
+                (clj->js {:position pos :title (:description r)}))
         window (info-window-for-report r marker)]
-    (google.maps.event.addListener marker "click" (fn [] (.open window *map* marker)))
+    (google.maps.event.addListener marker "click"
+                                   (fn [] (.open window *map* marker)))
     marker))
 
 (defn parse-reports
@@ -86,13 +85,4 @@
       (.on "changeDate" (fn [ev] (set-date :end-date (js->clj ev)))))
   (-> (js/$ "#start-date")
       (.fdatepicker)
-      (.on "changeDate" (fn [ev] (set-date :start-date (js->clj ev)))))
-  (doseq [bar-link (sel :a.date)]
-    (let [date (attr/attr bar-link "data-date")]
-      (dommy/listen! bar-link :click
-                     (fn [e]
-                       (attr/toggle-class! (.-target e) "highlighted")
-                       (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date) (:reports @comp/reports))]
-                         (if (.getMap (:marker report))
-                           (.setMap (:marker report) nil)
-                           (.setMap (:marker report) *map*))))))))
+      (.on "changeDate" (fn [ev] (set-date :start-date (js->clj ev))))))
