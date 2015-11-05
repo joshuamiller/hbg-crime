@@ -1,70 +1,17 @@
 (ns hbg-crime.application
-  (:use [c2.core :only [unify]]
-        [hbg-crime.dates :only [date-for-timestamp
-                                local-date-string-from-date
-                                within?]])
-  (:require [c2.scale :as scale]
-            [clojure.string :as string]
-            [dommy.attrs :as attr]
+  (:require [ajax.core :refer [GET]]
             [dommy.core :as dommy]
-            [ajax.core :refer [GET]])
-  (:use-macros [c2.util :only [bind!]]
-               [dommy.macros :only [sel sel1 node]]))
+            [hbg-crime.components :refer [*map*] :as comp]
+            [hbg-crime.dates :refer [date-for-timestamp
+                                     local-date-string-from-date
+                                     within?]])
+  (:use-macros [dommy.macros :only [sel sel1 node]]))
 
 ;; Map center point. 12th and Herr St
 (def lon -76.874382)
 (def lat 40.2725855)
 
 (declare listen-on-chart)
-(declare *map*)
-
-(def reports (atom {:reports []
-                    :start-date ""
-                    :end-date ""}))
-(def reports-by-date (atom []))
-(def reports-by-type (atom []))
-(def reports-by-neighborhood (atom []))
-
-(defn bar-chart
-  []
-  (let [width (attr/px (sel1 :#barchart) :width)
-        bar-height 30
-        s (scale/linear :domain [0 (apply max (vals @reports-by-date))]
-                        :range [0 width])]
-    (bind! "#barchart"
-           [:div#bars
-            (unify @reports-by-date
-                   (fn [[label val]]
-                     (let [date (date-for-timestamp label)]
-                       [:div {:style {:width (str width "px")}}
-                        [:a {:href (str "/" date "/" date "/reports.csv")
-                             :class "download"}
-                         [:i {:class "fa fa-cloud-download"}]]
-                        [:div {:style {:height (str bar-height "px")
-                                       :width (str (s val) "px")
-                                       :background-color "gray"
-                                       :padding "4px"
-                                       :border "2px solid white"}}
-                         [:span {:style {:color "white"}}
-                          [:a {:href (str "#" date)
-                               :class "date"
-                               :data-date date
-                               :title (str val " reports")}
-                           date]
-                          ]]])))])))
-
-(defn- title-case
-  [s]
-  (string/join " " (map string/capitalize (string/split s #"[- ]"))))
-
-(defn table-chart
-  [id data]
-  (bind! (str "#" id)
-         [(keyword (str "tbody.results#" id))
-          (unify @data (fn [[label val]]
-                        [:tr
-                         [:td (title-case label)]
-                         [:td val]]))]))
 
 (defn info-window-content
   [report]
@@ -87,34 +34,11 @@
     (google.maps.event.addListener marker "click" (fn [] (.open window *map* marker)))
     marker))
 
-(defn- by-type
-  "The top 5 crime report types by frequency."
-  [reports]
-  (take 5 (sort #(> (last %1) (last %2)) (frequencies (map :description reports)))))
-
-(defn- by-neighborhood
-  "Neighborhoods ordered by crime frequency"
-  [reports]
-  (sort #(> (last %1) (last %2)) (frequencies (map :neighborhood reports))))
-
 (defn parse-reports
   "Parse reports JSON and assign results to appropriate atoms."
   [results]
-  (let [with-markers (map #(assoc % :marker (report-marker %)) results)
-        dates (sort (distinct (map #(date-for-timestamp (:endtime %)) results)))
-        by-date (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results))))
-]
-    (swap! reports #(assoc %
-                      :reports with-markers
-                      :all-by-date by-date
-                      :start-date (first dates)
-                      :end-date (last dates)))
-    (reset! reports-by-date by-date)
-    (reset! reports-by-type (by-type results))
-    (reset! reports-by-neighborhood (by-neighborhood results))
-    (bar-chart)
-    (table-chart "types" reports-by-type)
-    (table-chart "neighborhoods" reports-by-neighborhood)
+  (let [with-markers (map #(assoc % :marker (report-marker %)) results)]
+    (swap! comp/reports with-markers)
     (listen-on-chart)))
 
 (defn ^:export get-reports
@@ -168,7 +92,7 @@
       (dommy/listen! bar-link :click
                      (fn [e]
                        (attr/toggle-class! (.-target e) "highlighted")
-                       (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date) (:reports @reports))]
+                       (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date) (:reports @comp/reports))]
                          (if (.getMap (:marker report))
                            (.setMap (:marker report) nil)
                            (.setMap (:marker report) *map*))))))))
