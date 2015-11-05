@@ -7,7 +7,7 @@
             [clojure.string :as string]
             [dommy.attrs :as attr]
             [dommy.core :as dommy]
-            [goog.net.XhrIo :as xhr])
+            [ajax.core :refer [GET]])
   (:use-macros [c2.util :only [bind!]]
                [dommy.macros :only [sel sel1 node]]))
 
@@ -99,9 +99,8 @@
 
 (defn parse-reports
   "Parse reports JSON and assign results to appropriate atoms."
-  [resp]
-  (let [results (js->clj (.getResponseJson (.-target resp)) :keywordize-keys true)
-        with-markers (map #(assoc % :marker (report-marker %)) results)
+  [results]
+  (let [with-markers (map #(assoc % :marker (report-marker %)) results)
         dates (sort (distinct (map #(date-for-timestamp (:endtime %)) results)))
         by-date (reverse (sort (frequencies (map #(date-for-timestamp (:endtime %)) results))))
 ]
@@ -121,7 +120,9 @@
 (defn ^:export get-reports
   "Get current reports from the server and trigger parse/display functions."
   []
-  (xhr/send "reports.json" parse-reports "GET"))
+  (GET "reports.json" {:handler parse-reports
+                       :reponse-format :json
+                       :keywords? true}))
 
 (defn ^:export create-map
   "Create a Google Map element, center it, and assign it to the *map* var."

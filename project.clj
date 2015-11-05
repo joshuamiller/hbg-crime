@@ -4,7 +4,8 @@
   :license {:name "The MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :min-lein-version "2.0.0"
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[org.clojure/clojure "1.8.0-beta2"]
+                 [org.clojure/clojurescript "1.7.145"]
                  [org.apache.pdfbox/pdfbox "1.8.2"]
                  [enlive/enlive "1.1.1"]
                  [cheshire "5.0.2"]
@@ -17,9 +18,8 @@
                  [ring "1.0.3"]
                  [environ "0.4.0"]
                  [prismatic/dommy "0.1.1"]
-                 [org.clojure/clojurescript "0.0-2030"]
-                 [com.keminglabs/c2 "0.2.3-SNAPSHOT"]
-                 [clojure-csv/clojure-csv "2.0.0-alpha1"]]
+                 [com.keminglabs/c2 "0.2.3"]
+                 [instaparse "1.4.1"]]
   :source-paths ["src/clj"]
   :cljsbuild {:builds
               [{:source-paths ["src/cljs"]
@@ -29,8 +29,8 @@
                            "jquery-1.9.js"
                            "foundation-datepicker.js"]
                  :optimizations :advanced}}]}
-  :plugins [[lein-ring "0.8.2"]
-            [lein-cljsbuild "0.3.4"]]
+  :plugins [[lein-ring "0.8.13"]
+            [lein-cljsbuild "1.1.0"]]
   :ring {:handler hbg-crime.web/routes}
   :aliases {"update-reports"
             ["run" "-m" "hbg-crime.core/insert-all-current-reports"]
