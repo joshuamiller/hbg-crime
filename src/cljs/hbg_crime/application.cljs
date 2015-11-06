@@ -1,5 +1,6 @@
 (ns hbg-crime.application
   (:require [ajax.core :refer [GET]]
+            [clojure.walk :refer [keywordize-keys]]
             [dommy.core :as dommy :refer-macros [sel1]]
             [hbg-crime.components :refer [*map*] :as comp]
             [hbg-crime.dates :refer [date-strftimed
@@ -22,8 +23,8 @@
 (defn report-marker
   "Build a Google Maps marker and give it an info window."
   [r]
-  (let [lat (get r "lat")
-        lng (get r "lng")
+  (let [lat (:lat r)
+        lng (:lng r)
         pos (google.maps.LatLng. lat lng)
         marker (google.maps.Marker.
                 (clj->js {:position pos :title (:description r)}))
@@ -35,7 +36,8 @@
 (defn parse-reports
   "Parse reports JSON and assign results to appropriate atom."
   [results]
-  (let [with-markers (map #(assoc % :marker (report-marker %)) results)]
+  (let [keywordized (map keywordize-keys results)
+        with-markers (map #(assoc % :marker (report-marker %)) keywordized)]
     (reset! comp/reports with-markers)
     (listen-on-chart)))
 
@@ -84,7 +86,7 @@
 
 (defn log-reports
   []
-  (.log js/console (clj->js (map :marker @comp/reports))))
+  (.log js/console (clj->js @comp/reports)))
 (r/render [comp/bar-chart] (sel1 :#barchart))
 (create-map)
 (get-reports)

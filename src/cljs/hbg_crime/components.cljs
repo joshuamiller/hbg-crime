@@ -13,7 +13,7 @@
 (defn end-timestamps
   []
   (->> @reports
-    (map #(get % "endtime"))
+    (map :endtime)
     (map date-for-timestamp)))
 
 (defn sorted-timestamps
@@ -39,30 +39,31 @@
 
 (defn reports-by-key
   [key]
-  (->> (frequencies (map #(get % key) @reports))
+  (->> (frequencies (map key @reports))
     (filter #(not (nil? (first %))))
     (sort #(> (last %1) (last %2)))))
 
 (defn reports-by-neighborhood
   []
-  (reports-by-key "neighborhood"))
+  (reports-by-key :neighborhood))
 
 (defn reports-by-category
   []
-  (reports-by-key "description"))
+  (reports-by-key :description))
 
 (defn bar-click
   [ev]
   (let [target (.-target ev)
         date   (attr target "data-date")]
     (toggle-class! target "highlighted")
-    (doseq [report (filter #(= (date-for-timestamp (get % "endtime")) date)
+    (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date)
                            @reports)]
-      (if-let [marker (:marker report)]
-        (do (.log js/console (.lat (.-position marker)))
-            (if (.getMap marker)
-              (.setMap marker nil)
-              (.setMap marker *map*)))))))
+      (do
+;        (.log js/console (:marker report))
+        (if-let [marker (:marker report)]
+          (if (.getMap marker)
+            (.setMap marker nil)
+            (.setMap marker *map*)))))))
 
 (defn scale
   [[domain-min domain-max] [range-min range-max] val]
