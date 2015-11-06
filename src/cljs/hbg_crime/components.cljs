@@ -77,7 +77,7 @@
      [:h3 "Reports by Date"]
      [:a#end-date {:data-date (end-date)
                    :data-date-format "yyyy-mm-dd"
-                   :data-date-end-date "0d"
+                   :data-date-end-date (today)
                    :class "date-change"}
       "Change End Date"]
      [:div#barchart
@@ -102,7 +102,7 @@
              date]]]])]]
      [:a#start-date {:data-date (start-date)
                      :data-date-format "yyyy-mm-dd"
-                     :data-date-end-date "0d"
+                     :data-date-end-date (today)
                      :class "date-change"}
       "Change Start Date"]]))
 
