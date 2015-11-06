@@ -1,8 +1,9 @@
 (ns hbg-crime.components
   (:require [clojure.string :as string]
-            [dommy.core :refer [toggle-class! px]
+            [dommy.core :refer [toggle-class! px attr]
              :refer-macros [sel1]]
-            [hbg-crime.dates :refer [date-for-timestamp]]
+            [hbg-crime.dates :refer [date-for-timestamp
+                                     date-strftimed]]
             [reagent.core :as r]))
 
 (declare *map*)
@@ -12,7 +13,7 @@
 (defn end-timestamps
   []
   (->> @reports
-    (map :endtime)
+    (map #(get % "endtime"))
     (map date-for-timestamp)))
 
 (defn sorted-timestamps
@@ -36,25 +37,31 @@
     (sort)
     (reverse)))
 
+(defn reports-by-key
+  [key]
+  (->> (frequencies (map #(get % key) @reports))
+    (filter #(not (nil? (first %))))
+    (sort #(> (last %1) (last %2)))))
+
 (defn reports-by-neighborhood
   []
-  (-> (map :neighborhood reports)
-    (frequencies)
-    (sort #(> (last %1) (last %2)))))
+  (reports-by-key "neighborhood"))
 
 (defn reports-by-category
   []
-  (-> (map :description reports)
-    (frequencies)
-    (sort #(> (last %1) (last %2))))  )
+  (reports-by-key "description"))
 
 (defn bar-click
   [ev]
-  (toggle-class! (.-target ev) "highlighted")
-  (doseq [report (filter #(= (date-for-timestamp (:endtime %))) @reports)]
-    (if (.getMap (:marker report))
-      (.setMap (:marker report) nil)
-      (.setMap (:marker report) *map*))))
+  (let [target (.-target ev)
+        date   (attr target "data-date")]
+    (toggle-class! target "highlighted")
+    (doseq [report (filter #(= (date-for-timestamp (get % "endtime")) date)
+                           @reports)]
+      (if-let [marker (get report "marker")]
+        (if (.getMap marker)
+          (.setMap marker nil)
+          (.setMap marker *map*))))))
 
 (defn scale
   [[domain-min domain-max] [range-min range-max] val]
@@ -69,6 +76,7 @@
         range [0 width]]
     [:div#bars
      (for [[date val] (reports-by-date)]
+       ^{:key date}
        [:div {:style {:width (str width "px")}}
         [:a {:href (str "/" date "/" date "/reports.csv")
              :class "download"}
@@ -92,18 +100,31 @@
 
 (defn table-chart
   [src]
-  (for [[name val] src]
-    [:tr
-     [:td (title-case name)]
-     [:td val]]))
+  [:tbody {:class "results"}
+   (for [[name val] src]
+     ^{:key name} [:tr
+                   [:td (title-case name)]
+                   [:td val]])])
 
 (defn neighborhood-table
   []
-  (table-chart (reports-by-neighborhood)))
+  [:h3 "Top Categories"]
+  [:table
+   [:thead
+    [:tr
+     [:th "Neighborhood"]
+     [:th "Reports"]]]
+   [table-chart (reports-by-neighborhood)]])
 
 (defn category-table
   []
-  (table-chart (reports-by-category)))
+  [:h3 "Top Categories"]
+  [:table
+   [:thead
+    [:tr
+     [:th "Offense"]
+     [:th "Frequency"]]]
+   [table-chart (reports-by-category)]])
 
 (defn info-window-content
   [report]

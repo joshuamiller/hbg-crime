@@ -2,9 +2,9 @@
   (:require [ajax.core :refer [GET]]
             [dommy.core :as dommy :refer-macros [sel1]]
             [hbg-crime.components :refer [*map*] :as comp]
-            [hbg-crime.dates :refer [date-for-timestamp
+            [hbg-crime.dates :refer [date-strftimed
                                      local-date-string-from-date
-                                     within? today month-ago]]
+                                     today month-ago]]
             [reagent.core :as r]))
 
 ;; Map center point. 12th and Herr St
@@ -36,7 +36,6 @@
   "Parse reports JSON and assign results to appropriate atom."
   [results]
   (let [with-markers (map #(assoc % :marker (report-marker %)) results)]
-    (.log js/console (clj->js with-markers))
     (reset! comp/reports with-markers)
     (listen-on-chart)))
 
@@ -45,11 +44,8 @@
   ([]
    (get-reports (month-ago) (today)))
   ([start end]
-   (.log js/console (str (date-for-timestamp start) "/"
-             (date-for-timestamp end) "/"
-             "reports.json"))
-   (GET (str (date-for-timestamp start) "/"
-             (date-for-timestamp end) "/"
+   (GET (str (date-strftimed start) "/"
+             (date-strftimed end) "/"
              "reports.json")
         {:handler parse-reports
          :reponse-format :json
@@ -83,5 +79,15 @@
       (.fdatepicker)
       (.on "changeDate" #(set-date :start-date (js->clj %)))))
 
+(r/render [comp/neighborhood-table] (sel1 :#neighborhoods))
+(r/render [comp/category-table] (sel1 :#types))
+
+(defn log-reports
+  []
+  (.log js/console (clj->js @comp/reports))
+  (.log js/console (clj->js (map :endtime @comp/reports)))
+  (.log js/console (clj->js (comp/end-timestamps)))
+  (.log js/console (clj->js (comp/reports-by-date))))
+(r/render [comp/bar-chart] (sel1 :#barchart))
 (create-map)
 (get-reports)

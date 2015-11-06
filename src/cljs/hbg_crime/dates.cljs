@@ -9,6 +9,12 @@
   [t]
   (first (str/split t #"T")))
 
+(defn date-strftimed
+  [d]
+  (str (.getFullYear d) "-"
+       (+ 1 (.getMonth d)) "-"
+       (.getDate d)))
+
 (defn- date-as-int
   [date]
   (js/parseInt (str/replace date #"-" "")))
@@ -34,7 +40,6 @@
 
 (defn today
   []
-
   (goog.date.Date.))
 
 (defn month-ago
