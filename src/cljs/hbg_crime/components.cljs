@@ -58,12 +58,10 @@
     (toggle-class! target "highlighted")
     (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date)
                            @reports)]
-      (do
-;        (.log js/console (:marker report))
-        (if-let [marker (:marker report)]
-          (if (.getMap marker)
-            (.setMap marker nil)
-            (.setMap marker *map*)))))))
+      (if-let [marker (:marker report)]
+        (if (.getMap marker)
+          (.setMap marker nil)
+          (.setMap marker *map*))))))
 
 (defn scale
   [[domain-min domain-max] [range-min range-max] val]
