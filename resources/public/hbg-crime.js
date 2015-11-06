@@ -71081,8 +71081,8 @@ if (typeof hbg_crime.components.reports !== "undefined") {
   hbg_crime.components.reports = reagent.core.atom.call(null, cljs.core.PersistentVector.EMPTY);
 }
 hbg_crime.components.end_timestamps = function hbg_crime$components$end_timestamps() {
-  return cljs.core.map.call(null, hbg_crime.dates.date_for_timestamp, cljs.core.map.call(null, function(p1__15486_SHARP_) {
-    return cljs.core.get.call(null, p1__15486_SHARP_, "endtime");
+  return cljs.core.map.call(null, hbg_crime.dates.date_for_timestamp, cljs.core.map.call(null, function(p1__15967_SHARP_) {
+    return cljs.core.get.call(null, p1__15967_SHARP_, "endtime");
   }, cljs.core.deref.call(null, hbg_crime.components.reports)));
 };
 hbg_crime.components.sorted_timestamps = function hbg_crime$components$sorted_timestamps() {
@@ -71098,12 +71098,12 @@ hbg_crime.components.reports_by_date = function hbg_crime$components$reports_by_
   return cljs.core.reverse.call(null, cljs.core.sort.call(null, cljs.core.frequencies.call(null, hbg_crime.components.end_timestamps.call(null))));
 };
 hbg_crime.components.reports_by_key = function hbg_crime$components$reports_by_key(key) {
-  return cljs.core.sort.call(null, function(p1__15489_SHARP_, p2__15490_SHARP_) {
-    return cljs.core.last.call(null, p1__15489_SHARP_) > cljs.core.last.call(null, p2__15490_SHARP_);
-  }, cljs.core.filter.call(null, function(p1__15488_SHARP_) {
-    return !(cljs.core.first.call(null, p1__15488_SHARP_) == null);
-  }, cljs.core.frequencies.call(null, cljs.core.map.call(null, function(p1__15487_SHARP_) {
-    return cljs.core.get.call(null, p1__15487_SHARP_, key);
+  return cljs.core.sort.call(null, function(p1__15970_SHARP_, p2__15971_SHARP_) {
+    return cljs.core.last.call(null, p1__15970_SHARP_) > cljs.core.last.call(null, p2__15971_SHARP_);
+  }, cljs.core.filter.call(null, function(p1__15969_SHARP_) {
+    return !(cljs.core.first.call(null, p1__15969_SHARP_) == null);
+  }, cljs.core.frequencies.call(null, cljs.core.map.call(null, function(p1__15968_SHARP_) {
+    return cljs.core.get.call(null, p1__15968_SHARP_, key);
   }, cljs.core.deref.call(null, hbg_crime.components.reports)))));
 };
 hbg_crime.components.reports_by_neighborhood = function hbg_crime$components$reports_by_neighborhood() {
@@ -71116,71 +71116,73 @@ hbg_crime.components.bar_click = function hbg_crime$components$bar_click(ev) {
   var target = ev.target;
   var date = dommy.core.attr.call(null, target, "data-date");
   dommy.core.toggle_class_BANG_.call(null, target, "highlighted");
-  var seq__15496 = cljs.core.seq.call(null, cljs.core.filter.call(null, function(target, date) {
-    return function(p1__15491_SHARP_) {
-      return cljs.core._EQ_.call(null, hbg_crime.dates.date_for_timestamp.call(null, cljs.core.get.call(null, p1__15491_SHARP_, "endtime")), date);
+  var seq__15977 = cljs.core.seq.call(null, cljs.core.filter.call(null, function(target, date) {
+    return function(p1__15972_SHARP_) {
+      return cljs.core._EQ_.call(null, hbg_crime.dates.date_for_timestamp.call(null, cljs.core.get.call(null, p1__15972_SHARP_, "endtime")), date);
     };
   }(target, date), cljs.core.deref.call(null, hbg_crime.components.reports)));
-  var chunk__15497 = null;
-  var count__15498 = 0;
-  var i__15499 = 0;
+  var chunk__15978 = null;
+  var count__15979 = 0;
+  var i__15980 = 0;
   while (true) {
-    if (i__15499 < count__15498) {
-      var report = cljs.core._nth.call(null, chunk__15497, i__15499);
-      var temp__4651__auto___15500 = cljs.core.get.call(null, report, "marker");
-      if (cljs.core.truth_(temp__4651__auto___15500)) {
-        var marker_15501 = temp__4651__auto___15500;
-        if (cljs.core.truth_(marker_15501.getMap())) {
-          marker_15501.setMap(null);
+    if (i__15980 < count__15979) {
+      var report = cljs.core._nth.call(null, chunk__15978, i__15980);
+      var temp__4651__auto___15981 = (new cljs.core.Keyword(null, "marker", "marker", 865118313)).cljs$core$IFn$_invoke$arity$1(report);
+      if (cljs.core.truth_(temp__4651__auto___15981)) {
+        var marker_15982 = temp__4651__auto___15981;
+        console.log(marker_15982.position.lat());
+        if (cljs.core.truth_(marker_15982.getMap())) {
+          marker_15982.setMap(null);
         } else {
-          marker_15501.setMap(hbg_crime.components._STAR_map_STAR_);
+          marker_15982.setMap(hbg_crime.components._STAR_map_STAR_);
         }
       } else {
       }
-      var G__15502 = seq__15496;
-      var G__15503 = chunk__15497;
-      var G__15504 = count__15498;
-      var G__15505 = i__15499 + 1;
-      seq__15496 = G__15502;
-      chunk__15497 = G__15503;
-      count__15498 = G__15504;
-      i__15499 = G__15505;
+      var G__15983 = seq__15977;
+      var G__15984 = chunk__15978;
+      var G__15985 = count__15979;
+      var G__15986 = i__15980 + 1;
+      seq__15977 = G__15983;
+      chunk__15978 = G__15984;
+      count__15979 = G__15985;
+      i__15980 = G__15986;
       continue;
     } else {
-      var temp__4653__auto__ = cljs.core.seq.call(null, seq__15496);
+      var temp__4653__auto__ = cljs.core.seq.call(null, seq__15977);
       if (temp__4653__auto__) {
-        var seq__15496__$1 = temp__4653__auto__;
-        if (cljs.core.chunked_seq_QMARK_.call(null, seq__15496__$1)) {
-          var c__5383__auto__ = cljs.core.chunk_first.call(null, seq__15496__$1);
-          var G__15506 = cljs.core.chunk_rest.call(null, seq__15496__$1);
-          var G__15507 = c__5383__auto__;
-          var G__15508 = cljs.core.count.call(null, c__5383__auto__);
-          var G__15509 = 0;
-          seq__15496 = G__15506;
-          chunk__15497 = G__15507;
-          count__15498 = G__15508;
-          i__15499 = G__15509;
+        var seq__15977__$1 = temp__4653__auto__;
+        if (cljs.core.chunked_seq_QMARK_.call(null, seq__15977__$1)) {
+          var c__5383__auto__ = cljs.core.chunk_first.call(null, seq__15977__$1);
+          var G__15987 = cljs.core.chunk_rest.call(null, seq__15977__$1);
+          var G__15988 = c__5383__auto__;
+          var G__15989 = cljs.core.count.call(null, c__5383__auto__);
+          var G__15990 = 0;
+          seq__15977 = G__15987;
+          chunk__15978 = G__15988;
+          count__15979 = G__15989;
+          i__15980 = G__15990;
           continue;
         } else {
-          var report = cljs.core.first.call(null, seq__15496__$1);
-          var temp__4651__auto___15510 = cljs.core.get.call(null, report, "marker");
-          if (cljs.core.truth_(temp__4651__auto___15510)) {
-            var marker_15511 = temp__4651__auto___15510;
-            if (cljs.core.truth_(marker_15511.getMap())) {
-              marker_15511.setMap(null);
+          var report = cljs.core.first.call(null, seq__15977__$1);
+          var temp__4651__auto___15991 = (new cljs.core.Keyword(null, "marker", "marker", 865118313)).cljs$core$IFn$_invoke$arity$1(report);
+          if (cljs.core.truth_(temp__4651__auto___15991)) {
+            var marker_15992 = temp__4651__auto___15991;
+            console.log(marker_15992.position.lat());
+            if (cljs.core.truth_(marker_15992.getMap())) {
+              marker_15992.setMap(null);
             } else {
-              marker_15511.setMap(hbg_crime.components._STAR_map_STAR_);
+              marker_15992.setMap(hbg_crime.components._STAR_map_STAR_);
             }
           } else {
           }
-          var G__15512 = cljs.core.next.call(null, seq__15496__$1);
-          var G__15513 = null;
-          var G__15514 = 0;
-          var G__15515 = 0;
-          seq__15496 = G__15512;
-          chunk__15497 = G__15513;
-          count__15498 = G__15514;
-          i__15499 = G__15515;
+          var G__15993 = cljs.core.next.call(null, seq__15977__$1);
+          var G__15994 = null;
+          var G__15995 = 0;
+          var G__15996 = 0;
+          seq__15977 = G__15993;
+          chunk__15978 = G__15994;
+          count__15979 = G__15995;
+          i__15980 = G__15996;
           continue;
         }
       } else {
@@ -71190,13 +71192,13 @@ hbg_crime.components.bar_click = function hbg_crime$components$bar_click(ev) {
     break;
   }
 };
-hbg_crime.components.scale = function hbg_crime$components$scale(p__15516, p__15517, val) {
-  var vec__15520 = p__15516;
-  var domain_min = cljs.core.nth.call(null, vec__15520, 0, null);
-  var domain_max = cljs.core.nth.call(null, vec__15520, 1, null);
-  var vec__15521 = p__15517;
-  var range_min = cljs.core.nth.call(null, vec__15521, 0, null);
-  var range_max = cljs.core.nth.call(null, vec__15521, 1, null);
+hbg_crime.components.scale = function hbg_crime$components$scale(p__15997, p__15998, val) {
+  var vec__16001 = p__15997;
+  var domain_min = cljs.core.nth.call(null, vec__16001, 0, null);
+  var domain_max = cljs.core.nth.call(null, vec__16001, 1, null);
+  var vec__16002 = p__15998;
+  var range_min = cljs.core.nth.call(null, vec__16002, 0, null);
+  var range_max = cljs.core.nth.call(null, vec__16002, 1, null);
   var ratio = val / (domain_max - domain_min);
   return ratio * (range_max - range_min);
 };
@@ -71207,34 +71209,34 @@ hbg_crime.components.bar_chart = function hbg_crime$components$bar_chart() {
   var range = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [0, width], null);
   return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div#bars", "div#bars", -674728452), function() {
     var iter__5352__auto__ = function(width, bar_height, domain, range) {
-      return function hbg_crime$components$bar_chart_$_iter__15530(s__15531) {
+      return function hbg_crime$components$bar_chart_$_iter__16011(s__16012) {
         return new cljs.core.LazySeq(null, function(width, bar_height, domain, range) {
           return function() {
-            var s__15531__$1 = s__15531;
+            var s__16012__$1 = s__16012;
             while (true) {
-              var temp__4653__auto__ = cljs.core.seq.call(null, s__15531__$1);
+              var temp__4653__auto__ = cljs.core.seq.call(null, s__16012__$1);
               if (temp__4653__auto__) {
-                var s__15531__$2 = temp__4653__auto__;
-                if (cljs.core.chunked_seq_QMARK_.call(null, s__15531__$2)) {
-                  var c__5350__auto__ = cljs.core.chunk_first.call(null, s__15531__$2);
+                var s__16012__$2 = temp__4653__auto__;
+                if (cljs.core.chunked_seq_QMARK_.call(null, s__16012__$2)) {
+                  var c__5350__auto__ = cljs.core.chunk_first.call(null, s__16012__$2);
                   var size__5351__auto__ = cljs.core.count.call(null, c__5350__auto__);
-                  var b__15533 = cljs.core.chunk_buffer.call(null, size__5351__auto__);
+                  var b__16014 = cljs.core.chunk_buffer.call(null, size__5351__auto__);
                   if (function() {
-                    var i__15532 = 0;
+                    var i__16013 = 0;
                     while (true) {
-                      if (i__15532 < size__5351__auto__) {
-                        var vec__15536 = cljs.core._nth.call(null, c__5350__auto__, i__15532);
-                        var date = cljs.core.nth.call(null, vec__15536, 0, null);
-                        var val = cljs.core.nth.call(null, vec__15536, 1, null);
-                        cljs.core.chunk_append.call(null, b__15533, cljs.core.with_meta(new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "width", "width", -384071477), [cljs.core.str(width), cljs.core.str("px")].join("")], null)], null), new cljs.core.PersistentVector(null, 
+                      if (i__16013 < size__5351__auto__) {
+                        var vec__16017 = cljs.core._nth.call(null, c__5350__auto__, i__16013);
+                        var date = cljs.core.nth.call(null, vec__16017, 0, null);
+                        var val = cljs.core.nth.call(null, vec__16017, 1, null);
+                        cljs.core.chunk_append.call(null, b__16014, cljs.core.with_meta(new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "width", "width", -384071477), [cljs.core.str(width), cljs.core.str("px")].join("")], null)], null), new cljs.core.PersistentVector(null, 
                         3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "a", "a", -2123407586), new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "href", "href", -793805698), [cljs.core.str("/"), cljs.core.str(date), cljs.core.str("/"), cljs.core.str(date), cljs.core.str("/reports.csv")].join(""), new cljs.core.Keyword(null, "class", "class", -2030961996), "download"], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, 
                         [new cljs.core.Keyword(null, "i", "i", -1386841315), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "class", "class", -2030961996), "fa fa-cloud-download"], null)], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 
                         5, [new cljs.core.Keyword(null, "height", "height", 1025178622), [cljs.core.str(bar_height), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, "width", "width", -384071477), [cljs.core.str(hbg_crime.components.scale.call(null, domain, range, val)), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, "background-color", "background-color", 570434026), "gray", new cljs.core.Keyword(null, "padding", "padding", 1660304693), "4px", new cljs.core.Keyword(null, "border", 
                         "border", 1444987323), "2px solid white"], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "span", "span", 1394872991), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "color", "color", 1011675173), "white"], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, 
                         [new cljs.core.Keyword(null, "a", "a", -2123407586), new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null, "href", "href", -793805698), [cljs.core.str("#"), cljs.core.str(date)].join(""), new cljs.core.Keyword(null, "class", "class", -2030961996), "date", new cljs.core.Keyword(null, "data-date", "data-date", 1295002395), date, new cljs.core.Keyword(null, "title", "title", 636505583), [cljs.core.str(val), cljs.core.str(" reports")].join(""), new cljs.core.Keyword(null, 
                         "onClick", "onClick", -1991238530), hbg_crime.components.bar_click], null), date], null)], null)], null)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), date], null)));
-                        var G__15538 = i__15532 + 1;
-                        i__15532 = G__15538;
+                        var G__16019 = i__16013 + 1;
+                        i__16013 = G__16019;
                         continue;
                       } else {
                         return true;
@@ -71242,21 +71244,21 @@ hbg_crime.components.bar_chart = function hbg_crime$components$bar_chart() {
                       break;
                     }
                   }()) {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15533), hbg_crime$components$bar_chart_$_iter__15530.call(null, cljs.core.chunk_rest.call(null, s__15531__$2)));
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__16014), hbg_crime$components$bar_chart_$_iter__16011.call(null, cljs.core.chunk_rest.call(null, s__16012__$2)));
                   } else {
-                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15533), null);
+                    return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__16014), null);
                   }
                 } else {
-                  var vec__15537 = cljs.core.first.call(null, s__15531__$2);
-                  var date = cljs.core.nth.call(null, vec__15537, 0, null);
-                  var val = cljs.core.nth.call(null, vec__15537, 1, null);
+                  var vec__16018 = cljs.core.first.call(null, s__16012__$2);
+                  var date = cljs.core.nth.call(null, vec__16018, 0, null);
+                  var val = cljs.core.nth.call(null, vec__16018, 1, null);
                   return cljs.core.cons.call(null, cljs.core.with_meta(new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "width", "width", -384071477), [cljs.core.str(width), cljs.core.str("px")].join("")], null)], null), new cljs.core.PersistentVector(null, 
                   3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "a", "a", -2123407586), new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "href", "href", -793805698), [cljs.core.str("/"), cljs.core.str(date), cljs.core.str("/"), cljs.core.str(date), cljs.core.str("/reports.csv")].join(""), new cljs.core.Keyword(null, "class", "class", -2030961996), "download"], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, 
                   [new cljs.core.Keyword(null, "i", "i", -1386841315), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "class", "class", -2030961996), "fa fa-cloud-download"], null)], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div", "div", 1057191632), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 
                   5, [new cljs.core.Keyword(null, "height", "height", 1025178622), [cljs.core.str(bar_height), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, "width", "width", -384071477), [cljs.core.str(hbg_crime.components.scale.call(null, domain, range, val)), cljs.core.str("px")].join(""), new cljs.core.Keyword(null, "background-color", "background-color", 570434026), "gray", new cljs.core.Keyword(null, "padding", "padding", 1660304693), "4px", new cljs.core.Keyword(null, "border", 
                   "border", 1444987323), "2px solid white"], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "span", "span", 1394872991), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "style", "style", -496642736), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "color", "color", 1011675173), "white"], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, 
                   [new cljs.core.Keyword(null, "a", "a", -2123407586), new cljs.core.PersistentArrayMap(null, 5, [new cljs.core.Keyword(null, "href", "href", -793805698), [cljs.core.str("#"), cljs.core.str(date)].join(""), new cljs.core.Keyword(null, "class", "class", -2030961996), "date", new cljs.core.Keyword(null, "data-date", "data-date", 1295002395), date, new cljs.core.Keyword(null, "title", "title", 636505583), [cljs.core.str(val), cljs.core.str(" reports")].join(""), new cljs.core.Keyword(null, 
-                  "onClick", "onClick", -1991238530), hbg_crime.components.bar_click], null), date], null)], null)], null)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), date], null)), hbg_crime$components$bar_chart_$_iter__15530.call(null, cljs.core.rest.call(null, s__15531__$2)));
+                  "onClick", "onClick", -1991238530), hbg_crime.components.bar_click], null), date], null)], null)], null)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), date], null)), hbg_crime$components$bar_chart_$_iter__16011.call(null, cljs.core.rest.call(null, s__16012__$2)));
                 }
               } else {
                 return null;
@@ -71275,28 +71277,28 @@ hbg_crime.components.title_case = function hbg_crime$components$title_case(s) {
 };
 hbg_crime.components.table_chart = function hbg_crime$components$table_chart(src) {
   return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "tbody", "tbody", -80678300), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "class", "class", -2030961996), "results"], null), function() {
-    var iter__5352__auto__ = function hbg_crime$components$table_chart_$_iter__15547(s__15548) {
+    var iter__5352__auto__ = function hbg_crime$components$table_chart_$_iter__16028(s__16029) {
       return new cljs.core.LazySeq(null, function() {
-        var s__15548__$1 = s__15548;
+        var s__16029__$1 = s__16029;
         while (true) {
-          var temp__4653__auto__ = cljs.core.seq.call(null, s__15548__$1);
+          var temp__4653__auto__ = cljs.core.seq.call(null, s__16029__$1);
           if (temp__4653__auto__) {
-            var s__15548__$2 = temp__4653__auto__;
-            if (cljs.core.chunked_seq_QMARK_.call(null, s__15548__$2)) {
-              var c__5350__auto__ = cljs.core.chunk_first.call(null, s__15548__$2);
+            var s__16029__$2 = temp__4653__auto__;
+            if (cljs.core.chunked_seq_QMARK_.call(null, s__16029__$2)) {
+              var c__5350__auto__ = cljs.core.chunk_first.call(null, s__16029__$2);
               var size__5351__auto__ = cljs.core.count.call(null, c__5350__auto__);
-              var b__15550 = cljs.core.chunk_buffer.call(null, size__5351__auto__);
+              var b__16031 = cljs.core.chunk_buffer.call(null, size__5351__auto__);
               if (function() {
-                var i__15549 = 0;
+                var i__16030 = 0;
                 while (true) {
-                  if (i__15549 < size__5351__auto__) {
-                    var vec__15553 = cljs.core._nth.call(null, c__5350__auto__, i__15549);
-                    var name = cljs.core.nth.call(null, vec__15553, 0, null);
-                    var val = cljs.core.nth.call(null, vec__15553, 1, null);
-                    cljs.core.chunk_append.call(null, b__15550, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "tr", "tr", -1424774646), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "td", "td", 1479933353), hbg_crime.components.title_case.call(null, name)], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, 
+                  if (i__16030 < size__5351__auto__) {
+                    var vec__16034 = cljs.core._nth.call(null, c__5350__auto__, i__16030);
+                    var name = cljs.core.nth.call(null, vec__16034, 0, null);
+                    var val = cljs.core.nth.call(null, vec__16034, 1, null);
+                    cljs.core.chunk_append.call(null, b__16031, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "tr", "tr", -1424774646), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "td", "td", 1479933353), hbg_crime.components.title_case.call(null, name)], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, 
                     "td", "td", 1479933353), val], null)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), name], null)));
-                    var G__15555 = i__15549 + 1;
-                    i__15549 = G__15555;
+                    var G__16036 = i__16030 + 1;
+                    i__16030 = G__16036;
                     continue;
                   } else {
                     return true;
@@ -71304,16 +71306,16 @@ hbg_crime.components.table_chart = function hbg_crime$components$table_chart(src
                   break;
                 }
               }()) {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15550), hbg_crime$components$table_chart_$_iter__15547.call(null, cljs.core.chunk_rest.call(null, s__15548__$2)));
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__16031), hbg_crime$components$table_chart_$_iter__16028.call(null, cljs.core.chunk_rest.call(null, s__16029__$2)));
               } else {
-                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__15550), null);
+                return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__16031), null);
               }
             } else {
-              var vec__15554 = cljs.core.first.call(null, s__15548__$2);
-              var name = cljs.core.nth.call(null, vec__15554, 0, null);
-              var val = cljs.core.nth.call(null, vec__15554, 1, null);
+              var vec__16035 = cljs.core.first.call(null, s__16029__$2);
+              var name = cljs.core.nth.call(null, vec__16035, 0, null);
+              var val = cljs.core.nth.call(null, vec__16035, 1, null);
               return cljs.core.cons.call(null, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "tr", "tr", -1424774646), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "td", "td", 1479933353), hbg_crime.components.title_case.call(null, name)], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, 
-              "td", "td", 1479933353), val], null)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), name], null)), hbg_crime$components$table_chart_$_iter__15547.call(null, cljs.core.rest.call(null, s__15548__$2)));
+              "td", "td", 1479933353), val], null)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), name], null)), hbg_crime$components$table_chart_$_iter__16028.call(null, cljs.core.rest.call(null, s__16029__$2)));
             }
           } else {
             return null;
@@ -71353,8 +71355,8 @@ hbg_crime.application.info_window_for_report = function hbg_crime$application$in
   return new google.maps.InfoWindow(cljs.core.clj__GT_js.call(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "content", "content", 15833224), reagent.core.render_component_to_string.call(null, hbg_crime.components.info_window_content.call(null, report))], null)));
 };
 hbg_crime.application.report_marker = function hbg_crime$application$report_marker(r) {
-  var lat = (new cljs.core.Keyword(null, "lat", "lat", -580793929)).cljs$core$IFn$_invoke$arity$1(r);
-  var lng = (new cljs.core.Keyword(null, "lng", "lng", 1667213918)).cljs$core$IFn$_invoke$arity$1(r);
+  var lat = cljs.core.get.call(null, r, "lat");
+  var lng = cljs.core.get.call(null, r, "lng");
   var pos = new google.maps.LatLng(lat, lng);
   var marker = new google.maps.Marker(cljs.core.clj__GT_js.call(null, new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "position", "position", -2011731912), pos, new cljs.core.Keyword(null, "title", "title", 636505583), (new cljs.core.Keyword(null, "description", "description", -1428560544)).cljs$core$IFn$_invoke$arity$1(r)], null)));
   var window = hbg_crime.application.info_window_for_report.call(null, r, marker);
@@ -71366,28 +71368,28 @@ hbg_crime.application.report_marker = function hbg_crime$application$report_mark
   return marker;
 };
 hbg_crime.application.parse_reports = function hbg_crime$application$parse_reports(results) {
-  var with_markers = cljs.core.map.call(null, function(p1__15558_SHARP_) {
-    return cljs.core.assoc.call(null, p1__15558_SHARP_, new cljs.core.Keyword(null, "marker", "marker", 865118313), hbg_crime.application.report_marker.call(null, p1__15558_SHARP_));
+  var with_markers = cljs.core.map.call(null, function(p1__16056_SHARP_) {
+    return cljs.core.assoc.call(null, p1__16056_SHARP_, new cljs.core.Keyword(null, "marker", "marker", 865118313), hbg_crime.application.report_marker.call(null, p1__16056_SHARP_));
   }, results);
   cljs.core.reset_BANG_.call(null, hbg_crime.components.reports, with_markers);
   return hbg_crime.application.listen_on_chart.call(null);
 };
 hbg_crime.application.get_reports = function hbg_crime$application$get_reports(var_args) {
-  var args15559 = [];
-  var len__5638__auto___15562 = arguments.length;
-  var i__5639__auto___15563 = 0;
+  var args16057 = [];
+  var len__5638__auto___16060 = arguments.length;
+  var i__5639__auto___16061 = 0;
   while (true) {
-    if (i__5639__auto___15563 < len__5638__auto___15562) {
-      args15559.push(arguments[i__5639__auto___15563]);
-      var G__15564 = i__5639__auto___15563 + 1;
-      i__5639__auto___15563 = G__15564;
+    if (i__5639__auto___16061 < len__5638__auto___16060) {
+      args16057.push(arguments[i__5639__auto___16061]);
+      var G__16062 = i__5639__auto___16061 + 1;
+      i__5639__auto___16061 = G__16062;
       continue;
     } else {
     }
     break;
   }
-  var G__15561 = args15559.length;
-  switch(G__15561) {
+  var G__16059 = args16057.length;
+  switch(G__16059) {
     case 0:
       return hbg_crime.application.get_reports.cljs$core$IFn$_invoke$arity$0();
       break;
@@ -71395,7 +71397,7 @@ hbg_crime.application.get_reports = function hbg_crime$application$get_reports(v
       return hbg_crime.application.get_reports.cljs$core$IFn$_invoke$arity$2(arguments[0], arguments[1]);
       break;
     default:
-      throw new Error([cljs.core.str("Invalid arity: "), cljs.core.str(args15559.length)].join(""));;
+      throw new Error([cljs.core.str("Invalid arity: "), cljs.core.str(args16057.length)].join(""));;
   }
 };
 hbg_crime.application.get_reports.cljs$core$IFn$_invoke$arity$0 = function() {
@@ -71411,14 +71413,14 @@ hbg_crime.application.create_map = function hbg_crime$application$create_map() {
   return hbg_crime.components._STAR_map_STAR_ = new google.maps.Map(document.getElementById("map"), map_opts);
 };
 hbg_crime.application.set_date = function hbg_crime$application$set_date(which, ev) {
-  var date_15568 = hbg_crime.dates.local_date_string_from_date.call(null, cljs.core.get.call(null, ev, "date"));
-  var G__15567_15569 = which instanceof cljs.core.Keyword ? which.fqn : null;
-  switch(G__15567_15569) {
+  var date_16066 = hbg_crime.dates.local_date_string_from_date.call(null, cljs.core.get.call(null, ev, "date"));
+  var G__16065_16067 = which instanceof cljs.core.Keyword ? which.fqn : null;
+  switch(G__16065_16067) {
     case "start-date":
-      hbg_crime.application.get_reports.call(null, date_15568, hbg_crime.components.end_date.call(null));
+      hbg_crime.application.get_reports.call(null, date_16066, hbg_crime.components.end_date.call(null));
       break;
     case "end-date":
-      hbg_crime.application.get_reports.call(null, hbg_crime.components.start_date.call(null), date_15568);
+      hbg_crime.application.get_reports.call(null, hbg_crime.components.start_date.call(null), date_16066);
       break;
     default:
       throw new Error([cljs.core.str("No matching clause: "), cljs.core.str(which)].join(""));;
@@ -71426,20 +71428,17 @@ hbg_crime.application.set_date = function hbg_crime$application$set_date(which, 
   return $([cljs.core.str("#"), cljs.core.str(cljs.core.name.call(null, which))].join("")).fdatepicker("hide");
 };
 hbg_crime.application.listen_on_chart = function hbg_crime$application$listen_on_chart() {
-  $("#end-date").fdatepicker().on("changeDate", function(p1__15571_SHARP_) {
-    return hbg_crime.application.set_date.call(null, new cljs.core.Keyword(null, "end-date", "end-date", -208259642), cljs.core.js__GT_clj.call(null, p1__15571_SHARP_));
+  $("#end-date").fdatepicker().on("changeDate", function(p1__16069_SHARP_) {
+    return hbg_crime.application.set_date.call(null, new cljs.core.Keyword(null, "end-date", "end-date", -208259642), cljs.core.js__GT_clj.call(null, p1__16069_SHARP_));
   });
-  return $("#start-date").fdatepicker().on("changeDate", function(p1__15572_SHARP_) {
-    return hbg_crime.application.set_date.call(null, new cljs.core.Keyword(null, "start-date", "start-date", 295168731), cljs.core.js__GT_clj.call(null, p1__15572_SHARP_));
+  return $("#start-date").fdatepicker().on("changeDate", function(p1__16070_SHARP_) {
+    return hbg_crime.application.set_date.call(null, new cljs.core.Keyword(null, "start-date", "start-date", 295168731), cljs.core.js__GT_clj.call(null, p1__16070_SHARP_));
   });
 };
 reagent.core.render.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [hbg_crime.components.neighborhood_table], null), document.getElementById("neighborhoods"));
 reagent.core.render.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [hbg_crime.components.category_table], null), document.getElementById("types"));
 hbg_crime.application.log_reports = function hbg_crime$application$log_reports() {
-  console.log(cljs.core.clj__GT_js.call(null, cljs.core.deref.call(null, hbg_crime.components.reports)));
-  console.log(cljs.core.clj__GT_js.call(null, cljs.core.map.call(null, new cljs.core.Keyword(null, "endtime", "endtime", -1077971312), cljs.core.deref.call(null, hbg_crime.components.reports))));
-  console.log(cljs.core.clj__GT_js.call(null, hbg_crime.components.end_timestamps.call(null)));
-  return console.log(cljs.core.clj__GT_js.call(null, hbg_crime.components.reports_by_date.call(null)));
+  return console.log(cljs.core.clj__GT_js.call(null, cljs.core.map.call(null, new cljs.core.Keyword(null, "marker", "marker", 865118313), cljs.core.deref.call(null, hbg_crime.components.reports))));
 };
 reagent.core.render.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [hbg_crime.components.bar_chart], null), document.getElementById("barchart"));
 hbg_crime.application.create_map.call(null);

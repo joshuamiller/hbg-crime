@@ -22,8 +22,8 @@
 (defn report-marker
   "Build a Google Maps marker and give it an info window."
   [r]
-  (let [lat (:lat r)
-        lng (:lng r)
+  (let [lat (get r "lat")
+        lng (get r "lng")
         pos (google.maps.LatLng. lat lng)
         marker (google.maps.Marker.
                 (clj->js {:position pos :title (:description r)}))
@@ -84,10 +84,7 @@
 
 (defn log-reports
   []
-  (.log js/console (clj->js @comp/reports))
-  (.log js/console (clj->js (map :endtime @comp/reports)))
-  (.log js/console (clj->js (comp/end-timestamps)))
-  (.log js/console (clj->js (comp/reports-by-date))))
+  (.log js/console (clj->js (map :marker @comp/reports))))
 (r/render [comp/bar-chart] (sel1 :#barchart))
 (create-map)
 (get-reports)
