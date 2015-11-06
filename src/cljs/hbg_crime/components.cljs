@@ -2,7 +2,7 @@
   (:require [clojure.string :as string]
             [dommy.core :refer [toggle-class! px attr]
              :refer-macros [sel1]]
-            [hbg-crime.dates :refer [date-for-timestamp]]
+            [hbg-crime.dates :refer [date-for-timestamp today]]
             [reagent.core :as r]))
 
 (declare *map*)
@@ -77,6 +77,7 @@
      [:h3 "Reports by Date"]
      [:a#end-date {:data-date (end-date)
                    :data-date-format "yyyy-mm-dd"
+                   :data-date-end-date "0d"
                    :class "date-change"}
       "Change End Date"]
      [:div#barchart
@@ -101,6 +102,7 @@
              date]]]])]]
      [:a#start-date {:data-date (start-date)
                      :data-date-format "yyyy-mm-dd"
+                     :data-date-end-date "0d"
                      :class "date-change"}
       "Change Start Date"]]))
 

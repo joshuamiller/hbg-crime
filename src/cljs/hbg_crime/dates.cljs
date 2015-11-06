@@ -2,6 +2,8 @@
   "Functions related to date math and JS date wrangling"
   (:require [goog.date.Date]
             [goog.date.Interval]
+            [goog.string :as gstr]
+            [goog.string.format :as gformat]
             [clojure.string :as str]))
 
 (defn date-for-timestamp
@@ -12,8 +14,8 @@
 (defn date-strftimed
   [d]
   (str (.getFullYear d) "-"
-       (+ 1 (.getMonth d)) "-"
-       (.getDate d)))
+       (gstr/format "%02d" (+ 1 (.getMonth d))) "-"
+       (gstr/format "%02d" (.getDate d))))
 
 (defn- date-as-int
   [date]
