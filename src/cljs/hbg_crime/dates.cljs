@@ -24,13 +24,6 @@
   ;; Add a day.
   (goog.date.Interval. 0 0 1))
 
-(defn local-date-string-from-date
-  [d]
-  (let [date (goog.date.Date. d)]
-    ;; Dear lord why does this alter a date in place
-    (.add date offset-interval)
-    (date-strftimed date)))
-
 (defn within?
   "Test whether Date d is within the range start..end"
   [d start end]
