@@ -29,7 +29,7 @@
   (let [date (goog.date.Date. d)]
     ;; Dear lord why does this alter a date in place
     (.add date offset-interval)
-    (date-for-timestamp (.toIsoString date))))
+    (date-strftimed date)))
 
 (defn within?
   "Test whether Date d is within the range start..end"
@@ -40,11 +40,11 @@
 
 (defn today
   []
-  (goog.date.Date.))
+  (date-strftimed (goog.date.Date.)))
 
 (defn month-ago
   []
-  (let [date     (today)
+  (let [date     (goog.date.Date.)
         interval (goog.date.Interval. 0 0 -30)]
     (.add date interval)
-    date))
+    (date-strftimed date)))

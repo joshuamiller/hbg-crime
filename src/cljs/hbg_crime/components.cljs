@@ -2,8 +2,7 @@
   (:require [clojure.string :as string]
             [dommy.core :refer [toggle-class! px attr]
              :refer-macros [sel1]]
-            [hbg-crime.dates :refer [date-for-timestamp
-                                     date-strftimed]]
+            [hbg-crime.dates :refer [date-for-timestamp]]
             [reagent.core :as r]))
 
 (declare *map*)
@@ -74,25 +73,36 @@
         bar-height 30
         domain [0 (apply max (vals (reports-by-date)))]
         range [0 width]]
-    [:div#bars
-     (for [[date val] (reports-by-date)]
-       ^{:key date}
-       [:div {:style {:width (str width "px")}}
-        [:a {:href (str "/" date "/" date "/reports.csv")
-             :class "download"}
-         [:i {:class "fa fa-cloud-download"}]]
-        [:div {:style {:height (str bar-height "px")
-                       :width (str (scale domain range val) "px")
-                       :background-color "gray"
-                       :padding "4px"
-                       :border "2px solid white"}}
-         [:span {:style {:color "white"}}
-          [:a {:href (str "#" date)
-               :class "date"
-               :data-date date
-               :title (str val " reports")
-               :onClick bar-click}
-           date]]]])]))
+    [:div
+     [:h3 "Reports by Date"]
+     [:a#end-date {:data-date (end-date)
+                   :data-date-format "yyyy-mm-dd"
+                   :class "date-change"}
+      "Change End Date"]
+     [:div#barchart
+      [:div#bars
+       (for [[date val] (reports-by-date)]
+         ^{:key date}
+         [:div {:style {:width (str width "px")}}
+          [:a {:href (str "/" date "/" date "/reports.csv")
+               :class "download"}
+           [:i {:class "fa fa-cloud-download"}]]
+          [:div {:style {:height (str bar-height "px")
+                         :width (str (scale domain range val) "px")
+                         :background-color "gray"
+                         :padding "4px"
+                         :border "2px solid white"}}
+           [:span {:style {:color "white"}}
+            [:a {:href (str "#" date)
+                 :class "date"
+                 :data-date date
+                 :title (str val " reports")
+                 :onClick bar-click}
+             date]]]])]]
+     [:a#start-date {:data-date (start-date)
+                     :data-date-format "yyyy-mm-dd"
+                     :class "date-change"}
+      "Change Start Date"]]))
 
 (defn- title-case
   [s]

@@ -4,7 +4,6 @@
             [dommy.core :as dommy :refer-macros [sel1]]
             [hbg-crime.components :refer [*map*] :as comp]
             [hbg-crime.dates :refer [date-strftimed
-                                     local-date-string-from-date
                                      today month-ago]]
             [reagent.core :as r]))
 
@@ -46,8 +45,8 @@
   ([]
    (get-reports (month-ago) (today)))
   ([start end]
-   (GET (str (date-strftimed start) "/"
-             (date-strftimed end) "/"
+   (GET (str start "/"
+             end "/"
              "reports.json")
         {:handler parse-reports
          :reponse-format :json
@@ -63,7 +62,7 @@
 
 (defn- set-date
   [which ev]
-  (let [date (local-date-string-from-date (get ev "date"))]
+  (let [date (date-strftimed (aget ev "date"))]
     (case which
       :start-date (get-reports date (comp/end-date))
       :end-date (get-reports (comp/start-date) date)))
@@ -74,12 +73,12 @@
   "Sets listeners on reports by date chart to change date range and to
    toggle markers on map."
   []
-  (-> (js/$ "#end-date")
+  (-> (js/$ "a#end-date")
       (.fdatepicker)
-      (.on "changeDate" #(set-date :end-date (js->clj %))))
-  (-> (js/$ "#start-date")
+      (.on "changeDate" #(set-date :end-date %)))
+  (-> (js/$ "a#start-date")
       (.fdatepicker)
-      (.on "changeDate" #(set-date :start-date (js->clj %)))))
+      (.on "changeDate" #(set-date :start-date %))))
 
 (r/render [comp/neighborhood-table] (sel1 :#neighborhoods))
 (r/render [comp/category-table] (sel1 :#types))
@@ -87,6 +86,6 @@
 (defn log-reports
   []
   (.log js/console (clj->js @comp/reports)))
-(r/render [comp/bar-chart] (sel1 :#barchart))
+(r/render [comp/bar-chart] (sel1 :#dates))
 (create-map)
 (get-reports)
