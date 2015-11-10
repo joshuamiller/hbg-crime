@@ -4,7 +4,8 @@
             [clojure.java.jdbc.sql :as s]
             [clojure.string :as string]
             [clj-time.core :as time]
-            [clj-time.coerce :as coerce]))
+            [clj-time.coerce :as coerce]
+            [clj-time.format :as format]))
 
 (def db (env :database-url))
 
@@ -50,12 +51,15 @@
   []
   (j/query db (s/select * :reports "where neighborhood is null order by endtime::date desc")))
 
+(defn all-reports-with-dates
+  []
+  (j/query db (s/select * :reports (s/order-by {:endtime :desc}))))
+
 (defn all-reports
   []
-  (let [reports (j/query db (s/select * :reports (s/order-by {:endtime :desc})))]
-    (map #(assoc %
-            :endtime (format-local (:endtime %))
-            :starttime (format-local (:starttime %))) reports)))
+  (map #(assoc %
+               :endtime (format-local (:endtime %))
+               :starttime (format-local (:starttime %))) (all-reports-with-dates)))
 
 (defn single-report
   [id]

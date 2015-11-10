@@ -21,7 +21,8 @@
                  [prismatic/dommy "1.1.0"]
                  [instaparse "1.4.1"]
                  [cljs-ajax "0.5.1"]
-                 [reagent "0.5.1"]]
+                 [reagent "0.5.1"]
+                 [com.cognitect/transit-clj "0.8.285"]]
   :source-paths ["src/clj"]
   :cljsbuild {:builds
               [{:source-paths ["src/cljs"]
