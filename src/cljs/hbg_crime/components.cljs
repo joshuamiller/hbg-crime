@@ -2,7 +2,7 @@
   (:require [clojure.string :as string]
             [dommy.core :refer [toggle-class! px attr]
              :refer-macros [sel1]]
-            [hbg-crime.dates :refer [date-for-timestamp today]]
+            [hbg-crime.dates :refer [today display-date]]
             [reagent.core :as r]))
 
 (declare *map*)
@@ -12,14 +12,14 @@
 (defn end-timestamps
   []
   (->> @reports
-    (map :endtime)
-    (map date-for-timestamp)))
+       (map :endtime)
+       (map display-date)))
 
 (defn sorted-timestamps
   []
   (-> (end-timestamps)
-    (distinct)
-    (sort)))
+      (distinct)
+      (sort)))
 
 (defn start-date
   []
@@ -55,7 +55,7 @@
   (let [target (.-target ev)
         date   (attr target "data-date")]
     (toggle-class! target "highlighted")
-    (doseq [report (filter #(= (date-for-timestamp (:endtime %)) date)
+    (doseq [report (filter #(= (display-date (:endtime %)) date)
                            @reports)]
       (if-let [marker (:marker report)]
         (if (.getMap marker)
@@ -137,7 +137,7 @@
     [:tr
      [:th "Offense"]
      [:th "Frequency"]]]
-   [table-chart (reports-by-category)]])
+   [table-chart (take 5 (reports-by-category))]])
 
 (defn info-window-content
   [report]
@@ -146,4 +146,4 @@
    [:dd
     (:address report)
     [:br]
-    (:endtime report)]])
+    (display-date (:endtime report))]])

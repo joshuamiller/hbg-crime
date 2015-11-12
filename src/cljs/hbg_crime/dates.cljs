@@ -1,30 +1,26 @@
 (ns hbg-crime.dates
   "Functions related to date math and JS date wrangling"
-  (:require [goog.date.Date]
-            [goog.date.Interval]
+  (:require [goog.date.UtcDateTime]
             [goog.string :as gstr]
             [goog.string.format :as gformat]
             [clojure.string :as str]))
 
-(defn date-for-timestamp
-  "Split the date from an ISO timestamp string."
-  [t]
-  (first (str/split t #"T")))
-
-(defn date-strftimed
+(defn- date-strftimed
   [d]
-  (str (.getFullYear d) "-"
-       (gstr/format "%02d" (+ 1 (.getMonth d))) "-"
-       (gstr/format "%02d" (.getDate d))))
+  (str (.getUTCFullYear d) "-"
+       (gstr/format "%02d" (+ 1 (.getUTCMonth d))) "-"
+       (gstr/format "%02d" (.getUTCDate d))))
+
+(defn display-date
+  "Build a date of the format 2015-11-30"
+  [d]
+  (-> d
+      (goog.date.UtcDateTime.)
+      (date-strftimed)))
 
 (defn- date-as-int
   [date]
   (js/parseInt (str/replace date #"-" "")))
-
-(def offset-interval
-  ;; No way to add correct # of hours to fix time zone
-  ;; Add a day.
-  (goog.date.Interval. 0 0 1))
 
 (defn within?
   "Test whether Date d is within the range start..end"
@@ -42,4 +38,4 @@
   (let [date     (goog.date.Date.)
         interval (goog.date.Interval. 0 0 -30)]
     (.add date interval)
-    (date-strftimed date)))
+    (display-date date)))

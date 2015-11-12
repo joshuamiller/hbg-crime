@@ -1,9 +1,10 @@
 (ns hbg-crime.application
   (:require [ajax.core :refer [GET]]
             [clojure.walk :refer [keywordize-keys]]
+            [cognitect.transit :as t]
             [dommy.core :as dommy :refer-macros [sel1]]
             [hbg-crime.components :refer [*map*] :as comp]
-            [hbg-crime.dates :refer [date-strftimed
+            [hbg-crime.dates :refer [display-date
                                      today month-ago]]
             [reagent.core :as r]))
 
@@ -19,11 +20,21 @@
    (clj->js {:content (r/render-component-to-string
                        (comp/info-window-content report))})))
 
+(defn- lat-for
+  [r]
+  (if-let [lat (:lat r)]
+    (.-rep lat)))
+
+(defn- lng-for
+  [r]
+  (if-let [lng (:lng r)]
+    (.-rep lng)))
+
 (defn report-marker
   "Build a Google Maps marker and give it an info window."
   [r]
-  (let [lat (:lat r)
-        lng (:lng r)
+  (let [lat (lat-for r)
+        lng (lng-for r)
         pos (google.maps.LatLng. lat lng)
         marker (google.maps.Marker.
                 (clj->js {:position pos :title (:description r)}))
@@ -34,9 +45,10 @@
 
 (defn parse-reports
   "Parse reports JSON and assign results to appropriate atom."
-  [results]
-  (let [keywordized (map keywordize-keys results)
-        with-markers (map #(assoc % :marker (report-marker %)) keywordized)]
+  [body]
+  (let [reader (t/reader :json)
+        results (t/read reader body)
+        with-markers (map #(assoc % :marker (report-marker %)) results)]
     (reset! comp/reports with-markers)
     (listen-on-chart)))
 
@@ -47,10 +59,8 @@
   ([start end]
    (GET (str start "/"
              end "/"
-             "reports.json")
-        {:handler parse-reports
-         :reponse-format :json
-         :keywords? true})))
+             "reports.transit")
+        {:handler parse-reports})))
 
 (defn create-map
   "Create a Google Map element, center it, and assign it to the *map* var."
@@ -62,7 +72,7 @@
 
 (defn- set-date
   [which ev]
-  (let [date (date-strftimed (aget ev "date"))]
+  (let [date (display-date (aget ev "date"))]
     (case which
       :start-date (get-reports date (comp/end-date))
       :end-date (get-reports (comp/start-date) date)))
@@ -82,10 +92,7 @@
 
 (r/render [comp/neighborhood-table] (sel1 :#neighborhoods))
 (r/render [comp/category-table] (sel1 :#types))
-
-(defn log-reports
-  []
-  (.log js/console (clj->js @comp/reports)))
 (r/render [comp/bar-chart] (sel1 :#dates))
+
 (create-map)
 (get-reports)
