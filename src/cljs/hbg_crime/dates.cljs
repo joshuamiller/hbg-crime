@@ -39,3 +39,12 @@
         interval (goog.date.Interval. 0 0 -30)]
     (.add date interval)
     (display-date date)))
+
+(defn two-months-ago
+  "Temporarily go backwards two months while Police Dept gets
+  its reports back online"
+  []
+  (let [date     (goog.date.Date.)
+        interval (goog.date.Interval. 0 0 -60)]
+    (.add date interval)
+    (display-date date)))

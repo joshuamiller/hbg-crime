@@ -4,7 +4,7 @@
             [cognitect.transit :as t]
             [dommy.core :as dommy :refer-macros [sel1]]
             [hbg-crime.components :refer [*map*] :as comp]
-            [hbg-crime.dates :refer [display-date
+            [hbg-crime.dates :refer [display-date two-months-ago
                                      today month-ago]]
             [reagent.core :as r]))
 
@@ -55,7 +55,7 @@
 (defn get-reports
   "Get current reports from the server and trigger parse/display functions."
   ([]
-   (get-reports (month-ago) (today)))
+   (get-reports (two-months-ago) (today)))
   ([start end]
    (GET (str start "/"
              end "/"
