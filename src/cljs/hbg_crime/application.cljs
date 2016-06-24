@@ -55,7 +55,7 @@
 (defn get-reports
   "Get current reports from the server and trigger parse/display functions."
   ([]
-   (get-reports (two-months-ago) (today)))
+   (get-reports "2015-10-01" "2015-11-30"))
   ([start end]
    (GET (str start "/"
              end "/"
